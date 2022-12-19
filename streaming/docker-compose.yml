@@ -1,0 +1,156 @@
+---
+version: "3"
+networks:
+  default:
+    name: streaming-net
+  torrent-net:
+    external: true
+  proxy-net:
+    external: true
+
+volumes:
+  jellyfin-data:
+
+services:
+  jellyfin:
+    image: linuxserver/jellyfin:10.8.8
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Zurich
+      - JELLYFIN_PublishedServerUrl=192.168.1.11
+      - JELLYFIN_CACHE_DIR=/cache
+      - JELLYFIN_LOG_DIR=/log
+    volumes:
+      - jellyfin-data:/config
+      - /var/tmp/docker-storage/jellyfin-cache:/cache
+      - /var/tmp/docker-storage/jellyfin-logs:/log
+      - /mnt/video/media/Serien:/data/tvshows
+      - /mnt/video/media/Movies:/data/movies
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jellyfin.entryPoints=http"
+      - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+    hostname: jellyfin
+    ports:
+      - 8096:8096
+      - 8920:8920
+      - 7359:7359/udp
+    networks:
+      - default
+      - proxy-net
+    restart: unless-stopped
+
+  sonarr:
+    image: linuxserver/sonarr:3.0.9
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+    volumes:
+      - ./config/sonarr:/config
+      - /mnt/video/media/Serien:/tvshows
+      - /mnt/video/downloads:/downloads
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sonarr.entryPoints=http"
+    hostname: sonarr
+    ports:
+      - 8989:8989
+    networks:
+      - torrent-net
+      - proxy-net
+      - default
+    restart: unless-stopped
+
+  radarr:
+    image: linuxserver/radarr:4.2.4
+    container_name: radarr
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.radarr.entryPoints=http"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+    volumes:
+      - ./config/radarr:/config
+      - /mnt/video/media/Movies:/movies
+      - /mnt/video/downloads:/downloads
+    hostname: radarr
+    ports:
+      - 7878:7878
+    networks:
+      - torrent-net
+      - proxy-net
+      - default
+    restart: unless-stopped
+
+  bazarr:
+    image: linuxserver/bazarr:1.1.3
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+    volumes:
+      - ./config/bazarr:/config
+      - /mnt/video/media/Serien:/tvshows
+      - /mnt/video/media/Movies:/movies
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bazarr.entryPoints=http"
+    hostname: bazarr
+    ports:
+      - 6767:6767
+    networks:
+      - default
+      - proxy-net
+    restart: unless-stopped
+
+  jackett:
+    image: linuxserver/jackett:0.20.2402
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+      - AUTO_UPDATE=true
+    volumes:
+      - ./config/jackett:/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jackett.entryPoints=http"
+    hostname: jackett
+    ports:
+      - 9117:9117
+    networks:
+      - default
+      - proxy-net
+    restart: unless-stopped
+
+  jellyseerr:
+    image: fallenbagel/jellyseerr:1.2.1
+    container_name: jellyseerr
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jellyseerr.entrypoints=https"
+      - "traefik.http.routers.jellyseerr.rule=Host(`${DNS_CNAME_JELLYSEERR}`)"
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=Europe/Zurich
+    hostname: jellyseerr
+    ports:
+      - 5055:5055
+    networks:
+      - default
+      - proxy-net
+    volumes:
+      - ./config/jellyseerr:/app/config
+    restart: unless-stopped
+    depends_on:
+      - radarr
+      - sonarr
+      - jellyfin

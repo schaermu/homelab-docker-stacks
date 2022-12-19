@@ -1,0 +1,30 @@
+---
+version: "3"
+networks:
+  default:
+    name: tools-net
+  proxy-net:
+    external: true
+
+volumes:
+  vaultwarden-data:
+  diun-data:
+
+services:
+  vaultwarden:
+    image: vaultwarden/server:1.26.0
+    container_name: vaultwarden
+    restart: always
+    environment:
+      - WEBSOCKET_ENABLED=false
+      - DOMAIN=https://${DNS_CNAME_VAULTWARDEN}
+    networks:
+      - default
+      - proxy-net
+    volumes:
+      - vaultwarden-data:/data/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vaultwarden.entrypoints=https"
+      - "traefik.http.routers.vaultwarden.rule=Host(`${DNS_CNAME_VAULTWARDEN}`)"
+      - "traefik.http.services.vaultwarden-tools.loadbalancer.server.port=80"

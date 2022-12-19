@@ -1,0 +1,77 @@
+version: '3'
+networks:
+  default:
+    name: smarthome-net
+  proxy-net:
+    external: true
+
+volumes:
+  zigbee2mqtt-data:
+  mosquitto-data:
+
+services:
+  zigbee2mqtt:
+    image: koenkk/zigbee2mqtt:1.28.4
+    container_name: zigbee2mqtt
+    restart: unless-stopped
+    volumes:
+      - zigbee2mqtt-data:/app/data
+      - /run/udev:/run/udev:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.zigbee2mqtt.entryPoints=http"
+    ports:
+      - 8124:8124
+    networks:
+      - default
+    environment:
+      - TZ=Europe/Berlin
+    devices:
+      - /dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2450167-if00:/dev/ttyACM0
+    group_add:
+      - dialout
+    user: 1000:1000
+
+  mqtt:
+    image: eclipse-mosquitto:2.0.15
+    container_name: mqtt
+    restart: always
+    ports:
+      - 1883:1883
+      - 9001:9001
+    networks:
+      - default
+    volumes:
+      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - mosquitto-data:/mosquitto/data
+      - /var/tmp/docker-storage/mosquitto-logs:/mosquitto/log
+    user: 1000:1000
+
+  homeassistant:
+    image: linuxserver/homeassistant:2022.12.7
+    container_name: homeassistant
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Zurich
+    volumes:
+      - ./config:/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homeassistant.entryPoints=http"
+      - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
+    ports:
+      - 8123:8123
+      - 51827:51827
+    networks:
+      - default
+      - proxy-net
+    restart: unless-stopped
+
+#  mdns-repeater:
+#    image: angelnu/mdns_repeater
+#    container_name: mdns-repeater
+#    network_mode: host
+#    environment:
+#    - hostNIC=eno1
+#    - dockerNIC=br-4d9d01d28a74

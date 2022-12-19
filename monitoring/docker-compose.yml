@@ -1,0 +1,80 @@
+---
+version: "3"
+networks:
+  default:
+    name: monitoring-net
+  proxy-net:
+    external: true
+  tools-net:
+    external: true
+  smarthome-net:
+    external: true
+
+volumes:
+  vmagent-data:
+  victoriametrics-data:
+  grafana-data:
+
+services:
+  vmagent:
+    image: victoriametrics/vmagent:v1.85.1
+    container_name: vmagent
+    depends_on:
+      - victoriametrics
+    ports:
+      - 8429:8429
+    networks:
+      - default
+      - proxy-net
+      - tools-net
+      - smarthome-net
+    volumes:
+      - vmagent-data:/vmagentdata
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./config/homeassistant.token:/etc/prometheus/homeassistant.token
+    command:
+      - "--promscrape.config=/etc/prometheus/prometheus.yml"
+      - "--remoteWrite.url=http://victoriametrics:8428/api/v1/write"
+    restart: always
+
+  victoriametrics:
+    container_name: victoriametrics
+    image: victoriametrics/victoria-metrics:v1.85.1
+    ports:
+      - 8428:8428
+      - 8089:8089
+      - 8089:8089/udp
+      - 2003:2003
+      - 2003:2003/udp
+      - 4242:4242
+    volumes:
+      - victoriametrics-data:/storage
+    command:
+      - "--storageDataPath=/storage"
+      - "--graphiteListenAddr=:2003"
+      - "--opentsdbListenAddr=:4242"
+      - "--httpListenAddr=:8428"
+      - "--influxListenAddr=:8089"
+    restart: always
+    networks:
+      - default
+
+  grafana:
+    image: grafana/grafana-oss:9.3.2
+    container_name: grafana
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.entrypoints=https"
+      - "traefik.http.routers.grafana.rule=Host(`${DNS_CNAME_GRAFANA}`)"
+    ports:
+      - 3000:3000
+    networks:
+      - proxy-net
+      - default
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-polystat-panel
+    volumes:
+      - grafana-data:/var/lib/grafana
+    user: '1000'
+    restart:
+      always

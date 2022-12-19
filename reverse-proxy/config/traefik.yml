@@ -1,0 +1,49 @@
+api:
+  dashboard: true
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: "schaermu+acme@pm.me"
+      storage: "acme_letsencrypt.json"
+      httpChallenge:
+        entryPoint: http
+
+entryPoints:
+  http:
+    address: ":80"
+
+  https:
+    address: ":443"
+    http:
+      tls:
+         certResolver: letsencrypt        
+      middlewares:
+        - default@file
+        - crowdsec-bouncer@file
+
+global:
+  checknewversion: true
+  sendanonymoususage: false
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    network: "proxy-net"
+    defaultRule: "Host(`{{ index .Labels \"com.docker.compose.service\" }}.home`)"
+  file:
+    filename: "./dynamic.conf.yml"
+    watch: true
+  providersThrottleDuration: 10
+
+log:
+  level: "INFO"
+  filePath: "/var/log/traefik/traefik.log"
+
+accessLog:
+  filePath: "/var/log/traefik/access.log"
+  bufferingSize: 100
+
+metrics:
+  prometheus: {}

@@ -1,0 +1,30 @@
+version: "3.9"
+networks:
+  default:
+    name: pihole-net
+
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:2022.11.2
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "8085:80/tcp"
+    environment:
+      - TZ=Europe/Berlin
+      - FTLCONF_LOCAL_IPV4=192.168.1.11
+      - PIHOLE_DNS_=9.9.9.9;149.112.112.112
+      - WEBPASSWORD="${WEBPASSWORD}"
+    volumes:
+       - ./config/etc-pihole/:/etc/pihole/
+       - ./config/etc-dnsmasq.d/:/etc/dnsmasq.d/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pihole.entryPoints=http"
+      - "traefik.http.services.pihole.loadbalancer.server.port=80"
+    networks:
+      - default
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped

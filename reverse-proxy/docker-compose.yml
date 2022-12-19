@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+  traefik:
+    container_name: traefik
+    image: traefik:2.9.6
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config/traefik.yml:/traefik.yml:ro
+      - ./config/acme_letsencrypt.json:/acme_letsencrypt.json
+      - ./config/dynamic.conf.yml:/dynamic.conf.yml
+      - /var/log/crowdsec/traefik/:/var/log/traefik/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.entryPoints=http"
+      - "traefik.http.routers.traefik.middlewares=traefik-auth@file,default@file"
+      - "traefik.http.routers.traefik.service=api@internal"
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - default
+    hostname: traefik
+    ports:
+      - "80:80"
+      - "443:443"
+networks:
+  default:
+    name: proxy-net
