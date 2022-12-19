@@ -5,8 +5,8 @@
   ],
   "packageRules": [
     {
-      "matchPackageNames": ["com.thoughtworks.xstream:xstream"],
-      "allowedVersions": "/^[0-9]{1,3}+\\.[0-9]+\\.[0-9]+$/"
+      "matchPackageNames": ["linuxserver/jellyfin"],
+      "allowedVersions": "/^[0-9]{1,3}\.[0-9]+\.[0-9]+$/"
     }
   ]
 }
