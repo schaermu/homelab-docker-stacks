@@ -5,8 +5,74 @@
   ],
   "packageRules": [
     {
+      "matchUpdateTypes": ["patch", "pin", "digest"],
+      "automerge": true
+    },
+    {
       "matchPackageNames": ["linuxserver/jellyfin"],
-      "allowedVersions": "/^[0-9]{1,3}\.[0-9]+\.[0-9]+$/"
+      "allowedVersions": "/^[0-9]{1,3}\\.[0-9]+\\.[0-9]+$/",
+      "customChangelogUrl": "https://github.com/jellyfin/jellyfin"
+    },
+    {
+      "matchPackageNames": ["linuxserver/sonarr"],
+      "customChangelogUrl": "https://github.com/Sonarr/Sonarr"
+    },
+    {
+      "matchPackageNames": ["linuxserver/radarr"],
+      "customChangelogUrl": "https://github.com/Radarr/Radarr"
+    },
+    {
+      "matchPackageNames": ["linuxserver/bazarr"],
+      "customChangelogUrl": "https://github.com/morpheus65535/bazarr"
+    },
+    {
+      "matchPackageNames": ["linuxserver/jackett"],
+      "schedule": ["on friday"],
+      "customChangelogUrl": "https://github.com/Jackett/Jackett"
+    },
+    {
+      "matchPackageNames": ["fallenbagel/jellyseerr"],
+      "customChangelogUrl": "https://github.com/Fallenbagel/jellyseerr"
+    },
+    {
+      "matchPackageNames": ["victoriametrics/*"],
+      "customChangelogUrl": "https://github.com/VictoriaMetrics/VictoriaMetrics"
+    },
+    {
+      "matchPackageNames": ["grafana/grafana-oss"],
+      "customChangelogUrl": "https://github.com/grafana/grafana"
+    },
+    {
+      "matchPackageNames": ["photoprism/photoprism"],
+      "customChangelogUrl": "https://github.com/photoprism/photoprism"
+    },
+    {
+      "matchPackageNames": ["pihole/pihole"],
+      "customChangelogUrl": "https://github.com/pi-hole/pi-hole"
+    },
+    {
+      "matchPackageNames": ["traefik"],
+      "customChangelogUrl": "https://github.com/traefik/traefik"
+    },
+    {
+      "matchPackageNames": ["crowdsecurity/crowdsec"],
+      "customChangelogUrl": "https://github.com/crowdsecurity/crowdsec"
+    },
+    {
+      "matchPackageNames": ["koenkk/zigbee2mqtt"],
+      "customChangelogUrl": "https://github.com/Koenkk/zigbee2mqtt"
+    },
+    {
+      "matchPackageNames": ["linuxserver/homeassistant"],
+      "customChangelogUrl": "https://github.com/home-assistant/core"
+    },
+    {
+      "matchPackageNames": ["vaultwarden/server"],
+      "customChangelogUrl": "https://github.com/dani-garcia/vaultwarden"
+    },
+    {
+      "matchPackageNames": ["linuxserver/transmission"],
+      "customChangelogUrl": "https://github.com/linuxserver/docker-transmission"
     }
   ]
 }
