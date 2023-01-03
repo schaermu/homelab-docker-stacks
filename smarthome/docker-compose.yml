@@ -67,11 +67,3 @@ services:
       - default
       - proxy-net
     restart: unless-stopped
-
-#  mdns-repeater:
-#    image: angelnu/mdns_repeater
-#    container_name: mdns-repeater
-#    network_mode: host
-#    environment:
-#    - hostNIC=eno1
-#    - dockerNIC=br-4d9d01d28a74
