@@ -11,7 +11,7 @@ volumes:
 
 services:
   zigbee2mqtt:
-    image: koenkk/zigbee2mqtt:1.29.1
+    image: koenkk/zigbee2mqtt:1.29.2
     container_name: zigbee2mqtt
     restart: unless-stopped
     volumes:
