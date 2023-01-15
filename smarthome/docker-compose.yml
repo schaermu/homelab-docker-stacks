@@ -1,5 +1,14 @@
 version: '3'
 networks:
+  hass-macvlan:
+    driver: macvlan
+    driver_opts:
+      parent: eno1
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+          gateway: 192.168.1.1
+          ip_range: 192.168.1.12/32
   default:
     name: smarthome-net
   proxy-net:
@@ -62,8 +71,11 @@ services:
       - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
     ports:
       - 8123:8123
-      - 51827:51827
+      - 21063:21063
     networks:
-      - default
-      - proxy-net
+      default:
+      proxy-net:
+      hass-macvlan:
+        ipv4_address: 192.168.1.12
+      
     restart: unless-stopped
