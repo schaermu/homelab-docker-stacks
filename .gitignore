@@ -2,9 +2,10 @@ data/
 .env
 monitoring/config/homeassistant.token
 streaming/config
-pihole/config/*
-!pihole/config/etc-dnsmasq.d/03-custom-dns.conf
-reverse-proxy/config/acme_letsencrypt.json
+network/config/etc-dnsmasq.d/*
+network/config/etc-pihole/*
+!network/config/etc-dnsmasq.d/03-custom-dns.conf
+network/config/acme_letsencrypt.json
 security/config/*
 !security/config/acquis.yaml
 !security/config/config.yaml
