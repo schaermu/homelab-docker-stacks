@@ -7,7 +7,7 @@ services:
     container_name: crowdsec
     image: crowdsecurity/crowdsec:v1.4.5
     environment:
-      PGID: "1000"
+      GID: "${GID-1000}"
       COLLECTIONS: "crowdsecurity/sshd crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors"
     volumes:
       - ./config:/etc/crowdsec
@@ -22,6 +22,7 @@ services:
       - no-new-privileges=true
     networks:
       - proxy-net
+    user: 1000:1000
   bouncer-traefik:
     container_name: crowdsec-bouncer-traefik
     image: fbonalair/traefik-crowdsec-bouncer:0.5
