@@ -24,11 +24,11 @@ prometheus:
 my:
 network:
 homekit:
+  filter:
+    exclude_entities:
+      - switch.fatboy_plug
   ip_address: 192.168.1.12
   advertise_ip: 192.168.1.12
   
 logger:
   default: warning
-  logs:
-    homeassistant.components.homekit: debug
-    pyhap: debug
