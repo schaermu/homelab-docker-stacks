@@ -23,7 +23,6 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.photoprism.entrypoints=https"
       - "traefik.http.routers.photoprism.rule=Host(`${DNS_CNAME}`)"
-      - "traefik.http.services.photoprism-photos.loadbalancer.server.port=2342"
     restart: unless-stopped
     security_opt:
       - seccomp:unconfined
