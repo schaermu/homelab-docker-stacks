@@ -3,6 +3,8 @@ version: '3.8'
 networks:
   default:
     name: rengine-net
+  proxy-net:
+    external: true
 
 volumes:
   postgres-db:
@@ -28,14 +30,14 @@ services:
       - postgres-db:/var/lib/postgresql/data/
     user: 1000:1000
     networks:
-      - rengine-net
+      - default
 
   redis:
     image: "redis:alpine"
     hostname: redis
     user: 1000:1000
     networks:
-      - rengine-net
+      - default
 
   celery:
     image: ghcr.io/schaermu/rengine:v1.3.5
@@ -90,13 +92,18 @@ services:
       - nuclei-templates:/root/nuclei-templates
     user: 1000:1000
     networks:
-      - rengine-net
+      - default
 
   web:
     image: ghcr.io/schaermu/rengine:v1.3.5
     entrypoint: /usr/src/app/entrypoint.sh
-    restart: always
+    restart: unless-stopped
     image: docker.pkg.github.com/yogeshojha/rengine/rengine:latest
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.photoprism.entrypoints=https"
+      - "traefik.http.routers.photoprism.rule=Host(`${DNS_CNAME}`)"
+      - "traefik.http.services.photoprism-photos.loadbalancer.server.port=8000"
     environment:
       - DEBUG=0
       - CELERY_BROKER=redis://redis:6379/0
@@ -125,12 +132,12 @@ services:
       - rengine_network
     user: 1000:1000
     networks:
-      - rengine-net
+      - default
 
   tor:
     image: peterdavehello/tor-socks-proxy
     restart: always
     networks:
-      - rengine-net
+      - default
     depends_on:
       - web
