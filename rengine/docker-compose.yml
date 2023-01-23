@@ -18,7 +18,8 @@ volumes:
 services:
   db:
     restart: always
-    image: "postgres:12.3-alpine"
+    image: postgres:12.3-alpine
+    container_name: rengine-db
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
@@ -33,14 +34,16 @@ services:
       - default
 
   redis:
-    image: "redis:alpine"
+    image: redis:alpine
+    container_name: rengine-redis
     hostname: redis
     user: 1000:1000
     networks:
       - default
 
   celery:
-    image: ghcr.io/schaermu/rengine:v1.3.5
+    image: ghcr.io/schaermu/rengine:1.3.5
+    container_name: rengine-celery
     restart: always
     entrypoint: /usr/src/app/celery-entrypoint.sh
     command: watchmedo auto-restart --recursive --pattern="*.py" --directory="/usr/src/app/reNgine/" -- celery -A reNgine worker --autoscale=${MAX_CONCURRENCY},${MIN_CONCURRENCY} -l INFO
@@ -66,10 +69,11 @@ services:
       - redis
     user: 1000:1000
     networks:
-      - rengine_network
+      - default
 
   celery-beat:
-    image: ghcr.io/schaermu/rengine:v1.3.5
+    image: ghcr.io/schaermu/rengine:1.3.5
+    container_name: rengine-celery-beat
     entrypoint: /usr/src/app/beat-entrypoint.sh
     command: celery -A reNgine beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
     environment:
@@ -95,10 +99,10 @@ services:
       - default
 
   web:
-    image: ghcr.io/schaermu/rengine:v1.3.5
+    image: ghcr.io/schaermu/rengine:1.3.5
+    container_name: rengine-web
     entrypoint: /usr/src/app/entrypoint.sh
     restart: unless-stopped
-    image: docker.pkg.github.com/yogeshojha/rengine/rengine:latest
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.photoprism.entrypoints=https"
@@ -136,8 +140,9 @@ services:
 
   tor:
     image: peterdavehello/tor-socks-proxy
-    restart: always
-    networks:
-      - default
+    container_name: rengine-tor-proxy
+    restart: unless-stopped
     depends_on:
       - web
+    networks:
+      - default
