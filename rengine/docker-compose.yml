@@ -29,7 +29,6 @@ services:
       - "5432:5432"
     volumes:
       - postgres-db:/var/lib/postgresql/data/
-    user: 1000:1000
     networks:
       - default
 
@@ -37,7 +36,6 @@ services:
     image: redis:alpine
     container_name: rengine-redis
     hostname: redis
-    user: 1000:1000
     networks:
       - default
 
@@ -67,7 +65,6 @@ services:
     depends_on:
       - db
       - redis
-    user: 1000:1000
     networks:
       - default
 
@@ -94,7 +91,6 @@ services:
       - scan-results:/usr/src/scan_results
       - gf-patterns:/root/.gf
       - nuclei-templates:/root/nuclei-templates
-    user: 1000:1000
     networks:
       - default
 
@@ -134,7 +130,6 @@ services:
       - celery-beat
     networks:
       - rengine_network
-    user: 1000:1000
     networks:
       - default
 
