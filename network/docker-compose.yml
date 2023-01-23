@@ -1,4 +1,9 @@
 version: '3.9'
+
+networks:
+  default:
+    name: proxy-net
+
 services:
   traefik:
     container_name: traefik
@@ -36,7 +41,7 @@ services:
       - TZ=Europe/Berlin
       - FTLCONF_LOCAL_IPV4=192.168.1.11
       - PIHOLE_DNS_=9.9.9.9;149.112.112.112
-      - WEBPASSWORD=${WEBPASSWORD}
+      - WEBPASSWORD=${PIHOLE_PASSWORD}
     volumes:
        - ./config/etc-pihole/:/etc/pihole/
        - ./config/etc-dnsmasq.d/:/etc/dnsmasq.d/
@@ -49,7 +54,3 @@ services:
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
-
-networks:
-  default:
-    name: proxy-net
