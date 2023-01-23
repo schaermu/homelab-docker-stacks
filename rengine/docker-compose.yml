@@ -99,10 +99,6 @@ services:
     container_name: rengine-web
     entrypoint: /usr/src/app/entrypoint.sh
     restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.rengine.entrypoints=https"
-      - "traefik.http.routers.rengine.rule=Host(`${DNS_CNAME}`)"
     environment:
       - DEBUG=0
       - CELERY_BROKER=redis://redis:6379/0
@@ -128,9 +124,29 @@ services:
       - celery
       - celery-beat
     networks:
-      - rengine_network
+      - default
+
+  proxy:
+    image: nginx:alpine
+    container_name: rengine-proxy
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rengine.entrypoints=https"
+      - "traefik.http.routers.rengine.rule=Host(`${DNS_CNAME}`)"
+    ports:
+      - 80:80/tcp
+    depends_on:
+      - web
+      - db
+      - redis
+    volumes:
+      - ./config/nginx/rengine.conf:/etc/nginx/conf.d/rengine.conf:ro
+      - static-volume:/usr/src/app/staticfiles/
+      - scan-results:/usr/src/scan_results
     networks:
       - default
+      - proxy-net
 
   tor:
     image: peterdavehello/tor-socks-proxy
