@@ -1,0 +1,136 @@
+version: '3.8'
+
+networks:
+  default:
+    name: rengine-net
+
+volumes:
+  postgres-db:
+  gf-patterns:
+  nuclei-templates:
+  github-repos:
+  wordlist:
+  scan-results:
+  static-volume:
+
+services:
+  db:
+    restart: always
+    image: "postgres:12.3-alpine"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-db:/var/lib/postgresql/data/
+    user: 1000:1000
+    networks:
+      - rengine-net
+
+  redis:
+    image: "redis:alpine"
+    hostname: redis
+    user: 1000:1000
+    networks:
+      - rengine-net
+
+  celery:
+    image: ghcr.io/schaermu/rengine:v1.3.5
+    restart: always
+    entrypoint: /usr/src/app/celery-entrypoint.sh
+    command: watchmedo auto-restart --recursive --pattern="*.py" --directory="/usr/src/app/reNgine/" -- celery -A reNgine worker --autoscale=${MAX_CONCURRENCY},${MIN_CONCURRENCY} -l INFO
+    volumes:
+      - ./config:/root/.config
+      - github-repos:/usr/src/github
+      - wordlist:/usr/src/wordlist
+      - scan-results:/usr/src/scan_results
+      - gf-patterns:/root/.gf
+      - nuclei-templates:/root/nuclei-templates
+      - static-volume:/usr/src/app/staticfiles/
+    environment:
+      - DEBUG=0
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+    depends_on:
+      - db
+      - redis
+    user: 1000:1000
+    networks:
+      - rengine_network
+
+  celery-beat:
+    image: ghcr.io/schaermu/rengine:v1.3.5
+    entrypoint: /usr/src/app/beat-entrypoint.sh
+    command: celery -A reNgine beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    environment:
+      - DEBUG=0
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+    depends_on:
+      - celery
+    volumes:
+      - ./config:/root/.config
+      - github-repos:/usr/src/github
+      - wordlist:/usr/src/wordlist
+      - scan-results:/usr/src/scan_results
+      - gf-patterns:/root/.gf
+      - nuclei-templates:/root/nuclei-templates
+    user: 1000:1000
+    networks:
+      - rengine-net
+
+  web:
+    image: ghcr.io/schaermu/rengine:v1.3.5
+    entrypoint: /usr/src/app/entrypoint.sh
+    restart: always
+    image: docker.pkg.github.com/yogeshojha/rengine/rengine:latest
+    environment:
+      - DEBUG=0
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - RENGINE_CURRENT_VERSION='1.3.5'
+    volumes:
+      - ./config:/root/.config
+      - github-repos:/usr/src/github
+      - wordlist:/usr/src/wordlist
+      - scan-results:/usr/src/scan_results
+      - gf-patterns:/root/.gf
+      - nuclei-templates:/root/nuclei-templates
+      - static-volume:/usr/src/app/staticfiles/
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - celery
+      - celery-beat
+    networks:
+      - rengine_network
+    user: 1000:1000
+    networks:
+      - rengine-net
+
+  tor:
+    image: peterdavehello/tor-socks-proxy
+    restart: always
+    networks:
+      - rengine-net
+    depends_on:
+      - web

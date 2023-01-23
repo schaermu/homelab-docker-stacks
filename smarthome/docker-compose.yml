@@ -1,6 +1,7 @@
 version: '3'
 networks:
   hass-macvlan:
+    name: hass-macvlan
     driver: macvlan
     driver_opts:
       parent: eno1
