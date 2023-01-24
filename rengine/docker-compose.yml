@@ -26,7 +26,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_PORT=${POSTGRES_PORT}
     ports:
-      - "5432:5432"
+      - 5432
     volumes:
       - postgres-db:/var/lib/postgresql/data/
     networks:
@@ -118,7 +118,7 @@ services:
       - nuclei-templates:/root/nuclei-templates
       - static-volume:/usr/src/app/staticfiles/
     ports:
-      - "8000:8000"
+      - 8000
     depends_on:
       - db
       - celery
@@ -135,7 +135,7 @@ services:
       - "traefik.http.routers.rengine.entrypoints=https"
       - "traefik.http.routers.rengine.rule=Host(`${DNS_CNAME}`)"
     ports:
-      - 80:80/tcp
+      - 8080:80/tcp
     depends_on:
       - web
       - db
