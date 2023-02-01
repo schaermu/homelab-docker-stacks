@@ -132,7 +132,7 @@ services:
     restart: unless-stopped
 
   jellyseerr:
-    image: fallenbagel/jellyseerr:1.4.0
+    image: fallenbagel/jellyseerr:1.4.1
     container_name: jellyseerr
     labels:
       - "traefik.enable=true"
