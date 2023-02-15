@@ -58,7 +58,7 @@ services:
     user: 1000:1000
 
   homeassistant:
-    image: linuxserver/homeassistant:2023.2.3
+    image: linuxserver/homeassistant:2023.2.4
     container_name: homeassistant
     environment:
       - PUID=1000
