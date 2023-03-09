@@ -10,6 +10,7 @@ networks:
 
 volumes:
   jellyfin-data:
+  navidrome-data:
 
 services:
   jellyfin:
@@ -26,8 +27,8 @@ services:
       - jellyfin-data:/config
       - /var/tmp/docker-storage/jellyfin-cache:/cache
       - /var/tmp/docker-storage/jellyfin-logs:/log
-      - /mnt/video/media/Serien:/data/tvshows
-      - /mnt/video/media/Movies:/data/movies
+      - /mnt/media/video/Serien:/data/tvshows
+      - /mnt/media/video/Movies:/data/movies
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jellyfin.entryPoints=http"
@@ -42,6 +43,51 @@ services:
       - proxy-net
     restart: unless-stopped
 
+  navidrome:
+    image: deluan/navidrome:0.49.3
+    container_name: navidrome
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.navidrome.entrypoints=https"
+      - "traefik.http.routers.navidrome.rule=Host(`${DNS_CNAME_NAVIDROME}`)"
+    ports:
+      - "4533:4533"
+    hostname: navidrome
+    environment:
+      ND_SCANSCHEDULE: 1h
+      ND_LOGLEVEL: info
+      ND_BASEURL: ""
+    volumes:
+      - navidrome-data:/data
+      - /mnt/media/music:/music:ro
+    networks:
+      - proxy-net
+      - default
+    restart: unless-stopped
+
+  lidarr:
+    image: linuxserver/lidarr:1.0.2.2592-ls113
+    container_name: lidarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+    volumes:
+      - ./config/lidarr:/config
+      - /mnt/media/music/:/music
+      - /mnt/media/downloads:/downloads
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.lidarr.entryPoints=http"
+    hostname: lidarr
+    ports:
+      - 8686:8686
+    networks:
+      - torrent-net
+      - proxy-net
+      - default
+    restart: unless-stopped
+
   sonarr:
     image: linuxserver/sonarr:3.0.10
     container_name: sonarr
@@ -51,8 +97,8 @@ services:
       - TZ=Europe/Rome
     volumes:
       - ./config/sonarr:/config
-      - /mnt/video/media/Serien:/tvshows
-      - /mnt/video/downloads:/downloads
+      - /mnt/media/video/Serien:/tvshows
+      - /mnt/media/downloads:/downloads
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.sonarr.entryPoints=http"
@@ -77,8 +123,8 @@ services:
       - TZ=Europe/Rome
     volumes:
       - ./config/radarr:/config
-      - /mnt/video/media/Movies:/movies
-      - /mnt/video/downloads:/downloads
+      - /mnt/media/video/Movies:/movies
+      - /mnt/media/downloads:/downloads
     hostname: radarr
     ports:
       - 7878:7878
@@ -97,8 +143,8 @@ services:
       - TZ=Europe/Rome
     volumes:
       - ./config/bazarr:/config
-      - /mnt/video/media/Serien:/tvshows
-      - /mnt/video/media/Movies:/movies
+      - /mnt/media/video/Serien:/tvshows
+      - /mnt/media/video/Movies:/movies
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.bazarr.entryPoints=http"
