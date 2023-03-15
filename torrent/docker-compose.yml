@@ -49,5 +49,5 @@ services:
       - TRANSMISSION_WEB_HOME=/flood-for-transmission/
     volumes:
       - ./config/transmission:/config
-      - /mnt/video/downloads:/downloads
+      - /mnt/media/downloads:/downloads
     restart: unless-stopped
