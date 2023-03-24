@@ -60,7 +60,7 @@ services:
       - default
 
   grafana:
-    image: grafana/grafana-oss:9.4.3
+    image: grafana/grafana-oss:9.4.7
     container_name: grafana
     labels:
       - "traefik.enable=true"
