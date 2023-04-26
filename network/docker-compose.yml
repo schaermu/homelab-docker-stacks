@@ -7,7 +7,7 @@ networks:
 services:
   traefik:
     container_name: traefik
-    image: traefik:v2.9.10
+    image: traefik:v2.10.0
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
