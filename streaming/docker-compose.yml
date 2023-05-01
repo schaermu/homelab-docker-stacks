@@ -3,7 +3,7 @@ version: "3"
 networks:
   default:
     name: streaming-net
-  torrent-net:
+  download-net:
     external: true
   proxy-net:
     external: true
@@ -83,7 +83,7 @@ services:
     ports:
       - 8686:8686
     networks:
-      - torrent-net
+      - download-net
       - proxy-net
       - default
     restart: unless-stopped
@@ -106,7 +106,7 @@ services:
     ports:
       - 8989:8989
     networks:
-      - torrent-net
+      - download-net
       - proxy-net
       - default
     restart: unless-stopped
@@ -129,7 +129,7 @@ services:
     ports:
       - 7878:7878
     networks:
-      - torrent-net
+      - download-net
       - proxy-net
       - default
     restart: unless-stopped
