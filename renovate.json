@@ -14,12 +14,20 @@
       "customChangelogUrl": "https://github.com/jellyfin/jellyfin"
     },
     {
+      "matchPackageNames": ["deluan/navidrome"],
+      "customChangelogUrl": "https://github.com/navidrome/navidrome"
+    },
+    {
       "matchPackageNames": ["linuxserver/sonarr"],
       "customChangelogUrl": "https://github.com/Sonarr/Sonarr"
     },
     {
       "matchPackageNames": ["linuxserver/radarr"],
       "customChangelogUrl": "https://github.com/Radarr/Radarr"
+    },
+    {
+      "matchPackageNames": ["llinuxserver/lidarr"],
+      "customChangelogUrl": "https://github.com/linuxserver/docker-lidarr"
     },
     {
       "matchPackageNames": ["linuxserver/bazarr"],
