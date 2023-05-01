@@ -2,7 +2,7 @@
 version: "3"
 networks:
   default:
-    name: torrent-net
+    name: download-net
   proxy-net:
     external: true
 
@@ -25,7 +25,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=America/New_York
+      - TZ=Europe/Zurich
     volumes:
       - ./config/wireguard-client:/config
       - /lib/modules:/lib/modules
@@ -45,9 +45,30 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/Rome
+      - TZ=Europe/Zurich
       - TRANSMISSION_WEB_HOME=/flood-for-transmission/
     volumes:
       - ./config/transmission:/config
       - /mnt/media/downloads:/downloads
+    restart: unless-stopped
+
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sabnzbd.entryPoints=http"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Zurich
+    volumes:
+      - ./config/sabnzbd:/config
+      - /mnt/media/downloads/complete:/downloads
+      - /mnt/media/downloads/incomplete:/incomplete-downloads
+    ports:
+      - 8080:8080
+    networks:
+      - default
+      - proxy-net
     restart: unless-stopped
