@@ -54,9 +54,9 @@ services:
       - "4533:4533"
     hostname: navidrome
     environment:
-      ND_SCANSCHEDULE: 1h
-      ND_LOGLEVEL: info
-      ND_BASEURL: ""
+      - ND_SCANSCHEDULE=1h
+      - ND_LOGLEVEL=info
+      - ND_BASEURL="https://music.hpfr.ch"
     volumes:
       - navidrome-data:/data
       - /mnt/media/music:/music:ro
@@ -71,7 +71,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/Rome
+      - TZ=Europe/Zurich
     volumes:
       - ./config/lidarr:/config
       - /mnt/media/music/:/music
@@ -94,7 +94,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/Rome
+      - TZ=Europe/Zurich
     volumes:
       - ./config/sonarr:/config
       - /mnt/media/video/Serien:/tvshows
@@ -120,7 +120,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/Rome
+      - TZ=Europe/Zurich
     volumes:
       - ./config/radarr:/config
       - /mnt/media/video/Movies:/movies
@@ -140,7 +140,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/Rome
+      - TZ=Europe/Zurich
     volumes:
       - ./config/bazarr:/config
       - /mnt/media/video/Serien:/tvshows
@@ -162,7 +162,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/Rome
+      - TZ=Europe/Zurich
       - AUTO_UPDATE=true
     volumes:
       - ./config/jackett:/config
