@@ -12,6 +12,6 @@ security/config/*
 smarthome/config/*
 !smarthome/config/configuration.yaml
 !smarthome/config/mosquitto.conf
-torrent/config
+download/config
 rengine/config
 !rengine/config/nginx/*
