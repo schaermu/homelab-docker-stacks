@@ -35,7 +35,7 @@ services:
     networks:
       - default
     environment:
-      - TZ=Europe/Berlin
+      - TZ=Europe/Zurich
     devices:
       - /dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2450167-if00:/dev/ttyACM0
     group_add:
@@ -78,5 +78,4 @@ services:
       proxy-net:
       hass-macvlan:
         ipv4_address: 192.168.1.12
-      
     restart: unless-stopped

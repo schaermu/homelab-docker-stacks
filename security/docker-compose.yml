@@ -23,6 +23,7 @@ services:
     networks:
       - proxy-net
     user: 1000:1000
+
   bouncer-traefik:
     container_name: crowdsec-bouncer-traefik
     image: fbonalair/traefik-crowdsec-bouncer:0.5
@@ -35,6 +36,7 @@ services:
     networks:
       - proxy-net
     hostname: crowdsec-bouncer-traefik
+
 networks:
   proxy-net:
     external: true
