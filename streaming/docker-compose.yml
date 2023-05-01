@@ -14,7 +14,7 @@ volumes:
 
 services:
   jellyfin:
-    image: linuxserver/jellyfin:10.8.9
+    image: linuxserver/jellyfin:10.8.10
     container_name: jellyfin
     environment:
       - PUID=1000
@@ -157,7 +157,7 @@ services:
     restart: unless-stopped
 
   jackett:
-    image: linuxserver/jackett:0.20.3956
+    image: linuxserver/jackett:0.20.4029
     container_name: jackett
     environment:
       - PUID=1000
