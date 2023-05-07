@@ -64,7 +64,7 @@ services:
       - TZ=Europe/Zurich
     volumes:
       - ./config/sabnzbd:/config
-      - /mnt/media/downloads/complete:/downloads
+      - /mnt/media/downloads:/downloads
       - /mnt/media/downloads/incomplete:/incomplete-downloads
     ports:
       - 8080:8080

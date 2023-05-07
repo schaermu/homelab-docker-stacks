@@ -56,7 +56,7 @@ services:
     environment:
       - ND_SCANSCHEDULE=1h
       - ND_LOGLEVEL=info
-      - ND_BASEURL="https://music.hpfr.ch"
+      - ND_BASEURL=
     volumes:
       - navidrome-data:/data
       - /mnt/media/music:/music:ro
