@@ -21,7 +21,7 @@ volumes:
 
 services:
   zigbee2mqtt:
-    image: koenkk/zigbee2mqtt:1.30.3
+    image: koenkk/zigbee2mqtt:1.30.4
     container_name: zigbee2mqtt
     restart: unless-stopped
     volumes:
@@ -58,7 +58,7 @@ services:
     user: 1000:1000
 
   homeassistant:
-    image: linuxserver/homeassistant:2023.4.6
+    image: linuxserver/homeassistant:2023.5.2
     container_name: homeassistant
     environment:
       - PUID=1000

@@ -135,7 +135,7 @@ services:
     restart: unless-stopped
 
   bazarr:
-    image: linuxserver/bazarr:1.2.0
+    image: linuxserver/bazarr:1.2.1
     container_name: bazarr
     environment:
       - PUID=1000
@@ -157,7 +157,7 @@ services:
     restart: unless-stopped
 
   jackett:
-    image: linuxserver/jackett:0.20.4029
+    image: linuxserver/jackett:0.20.4101
     container_name: jackett
     environment:
       - PUID=1000
