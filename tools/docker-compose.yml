@@ -8,7 +8,6 @@ networks:
 
 volumes:
   vaultwarden-data:
-  diun-data:
 
 services:
   vaultwarden:
