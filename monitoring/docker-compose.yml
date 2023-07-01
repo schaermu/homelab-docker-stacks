@@ -17,7 +17,7 @@ volumes:
 
 services:
   vmagent:
-    image: victoriametrics/vmagent:v1.91.2
+    image: victoriametrics/vmagent:v1.91.3
     container_name: vmagent
     depends_on:
       - victoriametrics
