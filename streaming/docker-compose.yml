@@ -135,7 +135,7 @@ services:
     restart: unless-stopped
 
   bazarr:
-    image: linuxserver/bazarr:1.2.2
+    image: linuxserver/bazarr:1.2.4
     container_name: bazarr
     environment:
       - PUID=1000
