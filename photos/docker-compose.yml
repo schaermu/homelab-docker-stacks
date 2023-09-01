@@ -21,6 +21,9 @@ services:
       - proxy-net
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.photoprism-http.entrypoints=http"
+      - "traefik.http.routers.photoprism-http.rule=Host(`${DNS_CNAME}`)"
+      - "traefik.http.routers.photoprism-http.middlewares=redirect-https@file"
       - "traefik.http.routers.photoprism.entrypoints=https"
       - "traefik.http.routers.photoprism.rule=Host(`${DNS_CNAME}`)"
     security_opt:

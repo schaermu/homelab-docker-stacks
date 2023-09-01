@@ -15,3 +15,4 @@ smarthome/config/*
 download/config
 rengine/config
 !rengine/config/nginx/*
+NOOP
