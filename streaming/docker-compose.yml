@@ -48,6 +48,9 @@ services:
     container_name: navidrome
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.navidrome-http.entrypoints=http"
+      - "traefik.http.routers.navidrome-http.rule=Host(`${DNS_CNAME_NAVIDROME}`)"
+      - "traefik.http.routers.navidrome-http.middlewares=redirect-https@file"
       - "traefik.http.routers.navidrome.entrypoints=https"
       - "traefik.http.routers.navidrome.rule=Host(`${DNS_CNAME_NAVIDROME}`)"
     ports:
@@ -182,6 +185,9 @@ services:
     container_name: jellyseerr
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.jellyseerr-http.entrypoints=http"
+      - "traefik.http.routers.jellyseerr-http.rule=Host(`${DNS_CNAME_JELLYSEERR}`)"
+      - "traefik.http.routers.jellyseerr-http.middlewares=redirect-https@file"
       - "traefik.http.routers.jellyseerr.entrypoints=https"
       - "traefik.http.routers.jellyseerr.rule=Host(`${DNS_CNAME_JELLYSEERR}`)"
     environment:

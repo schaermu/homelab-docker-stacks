@@ -24,6 +24,9 @@ services:
       - vaultwarden-data:/data/
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.vaultwarden-http.entrypoints=http"
+      - "traefik.http.routers.vaultwarden-http.rule=Host(`${DNS_CNAME_VAULTWARDEN}`)"
+      - "traefik.http.routers.vaultwarden-http.middlewares=redirect-https@file"
       - "traefik.http.routers.vaultwarden.entrypoints=https"
       - "traefik.http.routers.vaultwarden.rule=Host(`${DNS_CNAME_VAULTWARDEN}`)"
       - "traefik.http.services.vaultwarden-tools.loadbalancer.server.port=80"

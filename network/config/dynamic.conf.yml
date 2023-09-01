@@ -15,6 +15,10 @@ tls:
       sniStrict: true
 http:
   middlewares:
+    redirect-https:
+      redirectscheme:
+        scheme: https
+        permanent: true
     traefik-auth:
       basicAuth:
         users:
