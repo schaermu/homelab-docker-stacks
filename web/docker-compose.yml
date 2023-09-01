@@ -1,0 +1,24 @@
+---
+version: "3"
+networks:
+  default:
+    name: web-net
+  proxy-net:
+    external: true
+
+services:
+  schaermu:
+    image: ghcr.io/schaermu/schaermu-ch:2023.9.0
+    container_name: schaermu-web
+    restart: always
+    networks:
+      - default
+      - proxy-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.schaermu-web-http.entrypoints=http"
+      - "traefik.http.routers.schaermu-web-http.rule=Host(`${DNS_CNAME_SCHAERMU_WEB}`)"
+      - "traefik.http.routers.schaermu-web-http.middlewares=redirect-https@file"
+      - "traefik.http.routers.schaermu-web.entrypoints=https"
+      - "traefik.http.routers.schaermu-web.rule=Host(`${DNS_CNAME_SCHAERMU_WEB}`)"
+      - "traefik.http.services.schaermu-web.loadbalancer.server.port=8080"
