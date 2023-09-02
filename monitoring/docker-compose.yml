@@ -39,7 +39,7 @@ services:
 
   victoriametrics:
     container_name: victoriametrics
-    image: victoriametrics/victoria-metrics:v1.93.2
+    image: victoriametrics/victoria-metrics:v1.93.3
     ports:
       - 8428:8428
       - 8089:8089
