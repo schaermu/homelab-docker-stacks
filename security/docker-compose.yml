@@ -8,21 +8,21 @@ services:
     image: crowdsecurity/crowdsec:v1.5.2
     environment:
       GID: "${GID-1000}"
-      COLLECTIONS: "crowdsecurity/sshd crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors"
+      COLLECTIONS: "crowdsecurity/sshd crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors crowdsecurity/iptables"
     volumes:
       - ./config:/etc/crowdsec
       - crowdsec-data:/var/lib/crowdsec/data
       - /etc/localtime:/etc/localtime:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /var/log/auth.log:/var/log/auth.log:ro
-      - /var/log/syslog:/var/log/syslog:ro
-      - /var/log/crowdsec:/var/log/crowdsec:ro
+      - /var/log/kern.log:/logs/kern.log:ro
+      - /var/log/auth.log:/logs/auth.log:ro
+      - /var/log/ufw.log:/logs/ufw.log:ro
+      - /var/log/syslog:/logs/syslog:ro
+      - /var/log/traefik:/logs/traefik:ro
     restart: unless-stopped
     security_opt:
       - no-new-privileges=true
     networks:
       - proxy-net
-    user: 1000:1000
 
   bouncer-traefik:
     container_name: crowdsec-bouncer-traefik

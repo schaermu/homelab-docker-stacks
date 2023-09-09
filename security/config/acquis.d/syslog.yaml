@@ -1,0 +1,7 @@
+filenames:
+ - /logs/auth.log
+ - /logs/syslog
+ - /logs/kern.log
+ - /logs/ufw.log
+labels:
+  type: syslog

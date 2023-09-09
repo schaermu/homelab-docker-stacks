@@ -14,7 +14,7 @@ services:
       - ./config/traefik.yml:/traefik.yml:ro
       - ./config/acme_letsencrypt.json:/acme_letsencrypt.json
       - ./config/dynamic.conf.yml:/dynamic.conf.yml
-      - /var/log/crowdsec/traefik/:/var/log/traefik/
+      - /var/log/traefik/:/var/log/traefik/
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.entryPoints=http"
