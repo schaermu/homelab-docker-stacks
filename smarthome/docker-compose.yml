@@ -43,7 +43,7 @@ services:
     user: 1000:1000
 
   mqtt:
-    image: eclipse-mosquitto:2.0.17
+    image: eclipse-mosquitto:2.0.18
     container_name: mqtt
     restart: always
     ports:
