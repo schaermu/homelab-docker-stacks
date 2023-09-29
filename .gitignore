@@ -1,11 +1,12 @@
 data/
 .env
+aws_credentials
 monitoring/config/homeassistant.token
 streaming/config
 network/config/etc-dnsmasq.d/*
 network/config/etc-pihole/*
 !network/config/etc-dnsmasq.d/03-custom-dns.conf
-network/config/acme_letsencrypt.json
+network/config/traefik/*.json
 security/config/*
 !security/config/acquis.d
 !security/config/config.yaml
@@ -13,6 +14,4 @@ smarthome/config/*
 !smarthome/config/configuration.yaml
 !smarthome/config/mosquitto.conf
 download/config
-rengine/config
-!rengine/config/nginx/*
 NOOP

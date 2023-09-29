@@ -12,8 +12,8 @@ services:
     container_name: wireguard
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.transmission.rule=Host(`transmission.home`)"
-      - "traefik.http.routers.transmission.entryPoints=http"
+      - "traefik.http.routers.transmission.rule=Host(`transmission.home.hpfr.ch`)"
+      - "traefik.http.routers.transmission.entryPoints=websecure"
       - "traefik.http.routers.transmission.service=transmission"
       - "traefik.http.services.transmission.loadbalancer.server.port=9091"
     cap_add:
@@ -57,7 +57,7 @@ services:
     container_name: sabnzbd
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.sabnzbd.entryPoints=http"
+      - "traefik.http.routers.sabnzbd.entryPoints=websecure"
     environment:
       - PUID=1000
       - PGID=1000

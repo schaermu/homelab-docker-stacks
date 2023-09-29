@@ -16,9 +16,6 @@ services:
       - proxy-net
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.schaermu-web-http.entrypoints=http"
-      - "traefik.http.routers.schaermu-web-http.rule=Host(`${DNS_CNAME_SCHAERMU_WEB}`)"
-      - "traefik.http.routers.schaermu-web-http.middlewares=redirect-https@file"
-      - "traefik.http.routers.schaermu-web.entrypoints=https"
+      - "traefik.http.routers.schaermu-web.entrypoints=websecure"
       - "traefik.http.routers.schaermu-web.rule=Host(`${DNS_CNAME_SCHAERMU_WEB}`)"
       - "traefik.http.services.schaermu-web.loadbalancer.server.port=8080"
