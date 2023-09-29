@@ -15,6 +15,7 @@ volumes:
   victoriametrics-data:
   grafana-data:
 
+
 services:
   vmagent:
     image: victoriametrics/vmagent:v1.93.5
@@ -64,10 +65,7 @@ services:
     container_name: grafana
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.grafana-http.entrypoints=http"
-      - "traefik.http.routers.grafana-http.rule=Host(`${DNS_CNAME_GRAFANA}`)"
-      - "traefik.http.routers.grafana-http.middlewares=redirect-https@file"
-      - "traefik.http.routers.grafana.entrypoints=https"
+      - "traefik.http.routers.grafana.entrypoints=websecure"
       - "traefik.http.routers.grafana.rule=Host(`${DNS_CNAME_GRAFANA}`)"
     ports:
       - 3000:3000
@@ -79,5 +77,4 @@ services:
     volumes:
       - grafana-data:/var/lib/grafana
     user: '1000'
-    restart:
-      always
+    restart: always

@@ -12,6 +12,7 @@ volumes:
   jellyfin-data:
   navidrome-data:
 
+
 services:
   jellyfin:
     image: linuxserver/jellyfin:10.8.11
@@ -31,7 +32,7 @@ services:
       - /mnt/media/video/Movies:/data/movies
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.jellyfin.entryPoints=http"
+      - "traefik.http.routers.jellyfin.entryPoints=websecure"
       - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
     hostname: jellyfin
     ports:
@@ -48,11 +49,8 @@ services:
     container_name: navidrome
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.navidrome-http.entrypoints=http"
+      - "traefik.http.routers.navidrome-http.entrypoints=websecure"
       - "traefik.http.routers.navidrome-http.rule=Host(`${DNS_CNAME_NAVIDROME}`)"
-      - "traefik.http.routers.navidrome-http.middlewares=redirect-https@file"
-      - "traefik.http.routers.navidrome.entrypoints=https"
-      - "traefik.http.routers.navidrome.rule=Host(`${DNS_CNAME_NAVIDROME}`)"
     ports:
       - "4533:4533"
     hostname: navidrome
@@ -81,7 +79,7 @@ services:
       - /mnt/media/downloads:/downloads
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.lidarr.entryPoints=http"
+      - "traefik.http.routers.lidarr.entryPoints=websecure"
     hostname: lidarr
     ports:
       - 8686:8686
@@ -104,7 +102,7 @@ services:
       - /mnt/media/downloads:/downloads
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.sonarr.entryPoints=http"
+      - "traefik.http.routers.sonarr.entryPoints=websecure"
     hostname: sonarr
     ports:
       - 8989:8989
@@ -119,7 +117,7 @@ services:
     container_name: radarr
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.radarr.entryPoints=http"
+      - "traefik.http.routers.radarr.entryPoints=websecure"
     environment:
       - PUID=1000
       - PGID=1000
@@ -150,7 +148,7 @@ services:
       - /mnt/media/video/Movies:/movies
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.bazarr.entryPoints=http"
+      - "traefik.http.routers.bazarr.entryPoints=websecure"
     hostname: bazarr
     ports:
       - 6767:6767
@@ -171,7 +169,7 @@ services:
       - ./config/jackett:/config
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.jackett.entryPoints=http"
+      - "traefik.http.routers.jackett.entryPoints=websecure"
     hostname: jackett
     ports:
       - 9117:9117
@@ -185,11 +183,8 @@ services:
     container_name: jellyseerr
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.jellyseerr-http.entrypoints=http"
+      - "traefik.http.routers.jellyseerr-http.entrypoints=websecure"
       - "traefik.http.routers.jellyseerr-http.rule=Host(`${DNS_CNAME_JELLYSEERR}`)"
-      - "traefik.http.routers.jellyseerr-http.middlewares=redirect-https@file"
-      - "traefik.http.routers.jellyseerr.entrypoints=https"
-      - "traefik.http.routers.jellyseerr.rule=Host(`${DNS_CNAME_JELLYSEERR}`)"
     environment:
       - LOG_LEVEL=debug
       - TZ=Europe/Zurich

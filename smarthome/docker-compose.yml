@@ -19,6 +19,7 @@ volumes:
   zigbee2mqtt-data:
   mosquitto-data:
 
+
 services:
   zigbee2mqtt:
     image: koenkk/zigbee2mqtt:1.33.0
@@ -26,12 +27,12 @@ services:
     restart: unless-stopped
     volumes:
       - zigbee2mqtt-data:/app/data
+      - ./config/zigbee2mqtt/configuration.yaml:/app/data/configuration.yaml
       - /run/udev:/run/udev:ro
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.zigbee2mqtt.entryPoints=http"
-    ports:
-      - 8124:8124
+      - "traefik.http.routers.zigbee2mqtt.entryPoints=websecure"
+      - "traefik.http.services.zigbee2mqtt.loadbalancer.server.port=8124"
     networks:
       - default
     environment:
@@ -52,7 +53,7 @@ services:
     networks:
       - default
     volumes:
-      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./config/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
       - mosquitto-data:/mosquitto/data
       - /var/tmp/docker-storage/mosquitto-logs:/mosquitto/log
     user: 1000:1000
@@ -65,10 +66,10 @@ services:
       - PGID=1000
       - TZ=Europe/Zurich
     volumes:
-      - ./config:/config
+      - ./config/homeassistant:/config
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.homeassistant.entryPoints=http"
+      - "traefik.http.routers.homeassistant.entryPoints=websecure"
       - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
     ports:
       - 8123:8123
