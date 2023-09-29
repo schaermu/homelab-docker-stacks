@@ -57,8 +57,6 @@ if [ "$#" -ne 2 ]; then
         exit
 fi
 
-echo "$1:$2"
-
 case "$1:$2" in
 update:--all) update_all ;;
 update:*) update $2 ;;
