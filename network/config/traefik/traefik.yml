@@ -5,19 +5,32 @@ certificatesResolvers:
   letsencrypt:
     acme:
       email: "schaermu+acme@pm.me"
-      storage: "acme_letsencrypt.json"
-      httpChallenge:
-        entryPoint: http
+      storage: "/etc/traefik/acme_letsencrypt.json"
+      dnschallenge:
+        provider: route53
 
 entryPoints:
-  http:
+  web:
     address: ":80"
+    http:
+      redirections:
+         entryPoint:
+           to: "websecure"
+           scheme: "https"
 
-  https:
+  websecure:
     address: ":443"
     http:
       tls:
-         certResolver: letsencrypt        
+         certResolver: letsencrypt
+         domains:
+           - main: hpfr.ch
+             sans:
+               - "*.hpfr.ch"
+               - "*.home.hpfr.ch"
+           - main: schaermu.ch
+             sans:
+               - "*.schaermu.ch"
       middlewares:
         - default@file
         - crowdsec-bouncer@file
@@ -31,9 +44,9 @@ providers:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
     network: "proxy-net"
-    defaultRule: "Host(`{{ index .Labels \"com.docker.compose.service\" }}.home`)"
+    defaultRule: "Host(`{{ index .Labels \"com.docker.compose.service\" }}.home.hpfr.ch`)"
   file:
-    filename: "./dynamic.conf.yml"
+    filename: "/etc/traefik/dynamic.conf.yml"
     watch: true
   providersThrottleDuration: 10
 

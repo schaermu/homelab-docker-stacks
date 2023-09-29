@@ -4,6 +4,10 @@ networks:
   default:
     name: proxy-net
 
+secrets:
+  aws_credentials:
+    file: ./config/traefik/aws_credentials
+
 services:
   traefik:
     container_name: traefik
@@ -11,13 +15,11 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./config/traefik.yml:/traefik.yml:ro
-      - ./config/acme_letsencrypt.json:/acme_letsencrypt.json
-      - ./config/dynamic.conf.yml:/dynamic.conf.yml
       - /var/log/traefik/:/var/log/traefik/
+      - ./config/traefik:/etc/traefik
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.entryPoints=http"
+      - "traefik.http.routers.traefik.entryPoints=websecure"
       - "traefik.http.routers.traefik.middlewares=traefik-auth@file,default@file"
       - "traefik.http.routers.traefik.service=api@internal"
     restart: unless-stopped
@@ -25,10 +27,14 @@ services:
       - no-new-privileges:true
     networks:
       - default
+    secrets:
+      - aws_credentials
+    environment:
+      - AWS_SHARED_CREDENTIALS_FILE=/run/secrets/aws_credentials
     hostname: traefik
     ports:
-      - "80:80"
-      - "443:443"
+      - 80:80
+      - 443:443
 
   pihole:
     container_name: pihole
@@ -41,16 +47,14 @@ services:
       - FTLCONF_LOCAL_IPV4=192.168.1.11
       - PIHOLE_DNS_=9.9.9.9;149.112.112.112
       - WEBPASSWORD=${PIHOLE_PASSWORD}
-      - VIRTUAL_HOST=pihole.home
+      - VIRTUAL_HOST=${PIHOLE_VIRTUAL_HOST}
     volumes:
-       - ./config/etc-pihole/:/etc/pihole/
-       - ./config/etc-dnsmasq.d/:/etc/dnsmasq.d/
+      - ./config/etc-pihole/:/etc/pihole/
+      - ./config/etc-dnsmasq.d/:/etc/dnsmasq.d/
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.pihole.entryPoints=http"
+      - "traefik.http.routers.pihole.entryPoints=websecure"
       - "traefik.http.services.pihole.loadbalancer.server.port=80"
-    networks:
-      - default
     cap_add:
       - NET_ADMIN
     restart: unless-stopped

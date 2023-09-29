@@ -13,21 +13,24 @@ tls:
         - CurveP521
         - CurveP384
       sniStrict: true
+
 http:
   middlewares:
-    redirect-https:
-      redirectscheme:
-        scheme: https
-        permanent: true
-    traefik-auth:
-      basicAuth:
-        users:
-          - "admin:$apr1$UlLlYq7h$UAGBLIAkPMQAQjt4RC.qD/"
     default:
       chain:
         middlewares:
           - default-security-headers
           - gzip
+
+    redirect-https:
+      redirectscheme:
+        scheme: https
+        permanent: true
+
+    traefik-auth:
+      basicAuth:
+        users:
+          - "admin:$apr1$UlLlYq7h$UAGBLIAkPMQAQjt4RC.qD/"
     sec-headers:
       chain:
         middlewares:
