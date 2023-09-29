@@ -57,11 +57,13 @@ if [ "$#" -ne 2 ]; then
         exit
 fi
 
+echo "$1:$2"
+
 case "$1:$2" in
-"update:--all") update_all ;;
-"update:") update $2 ;;
-"reup:--all") reup_all ;;
-"reup:") reup $2 ;;
+update:--all) update_all ;;
+update:*) update $2 ;;
+reup:--all) reup_all ;;
+reup:*) reup $2 ;;
 esac
 
 # clean up old images after updating
