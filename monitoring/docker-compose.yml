@@ -73,7 +73,7 @@ services:
       - proxy-net
       - default
     environment:
-      - GF_INSTALL_PLUGINS=grafana-polystat-panel
+      GF_INSTALL_PLUGINS: "grafana-polystat-panel"
     volumes:
       - grafana-data:/var/lib/grafana
     user: '1000'

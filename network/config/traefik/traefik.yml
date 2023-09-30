@@ -33,7 +33,6 @@ entryPoints:
                - "*.schaermu.ch"
       middlewares:
         - default@file
-        - crowdsec-bouncer@file
 
 global:
   checknewversion: true
@@ -51,7 +50,7 @@ providers:
   providersThrottleDuration: 10
 
 log:
-  level: "INFO"
+  level: "WARNING"
   filePath: "/var/log/traefik/traefik.log"
 
 accessLog:
