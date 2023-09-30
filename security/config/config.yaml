@@ -48,6 +48,7 @@ api:
     online_client: # Central API credentials (to push signals and receive bad IPs)
       credentials_path: /etc/crowdsec/online_api_credentials.yaml
       #credentials_path: /etc/crowdsec/online_api_credentials.yaml
+    enable: true
 #    tls:
 #      cert_file: /etc/crowdsec/ssl/cert.pem
 #      key_file: /etc/crowdsec/ssl/key.pem

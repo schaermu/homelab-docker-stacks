@@ -20,7 +20,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.entryPoints=websecure"
-      - "traefik.http.routers.traefik.middlewares=traefik-auth@file,default@file"
+      - "traefik.http.routers.traefik.middlewares=default@file"
       - "traefik.http.routers.traefik.service=api@internal"
     restart: unless-stopped
     security_opt:
