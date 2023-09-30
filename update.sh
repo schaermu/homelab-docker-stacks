@@ -32,7 +32,7 @@ update() {
 		pushd $1
 		echo "${BLUE}[`date`]${NORM} updating '$1'."
         	docker compose pull -q
-	        docker compose up -d
+	        docker compose up -d --force-recreate
 		echo "${BLUE}[`date`]${NORM} '$1' updated."
 		popd
 	else
