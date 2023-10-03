@@ -46,7 +46,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Zurich
-      - TRANSMISSION_WEB_HOME=/flood-for-transmission/
+      - TRANSMISSION_WEB_HOME=/config/flood-for-transmission/
     volumes:
       - ./config/transmission:/config
       - /mnt/media/downloads:/downloads
