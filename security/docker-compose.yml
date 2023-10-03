@@ -21,6 +21,8 @@ services:
     restart: unless-stopped
     security_opt:
       - no-new-privileges=true
+    ports:
+      - 8888:8080
     networks:
       - proxy-net
 
