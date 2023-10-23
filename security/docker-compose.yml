@@ -5,7 +5,7 @@ volumes:
 services:
   crowdsec:
     container_name: crowdsec
-    image: crowdsecurity/crowdsec:v1.5.4
+    image: crowdsecurity/crowdsec:v1.5.5
     environment:
       GID: "${GID-1000}"
       COLLECTIONS: "crowdsecurity/sshd crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors crowdsecurity/iptables"
