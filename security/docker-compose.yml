@@ -21,8 +21,6 @@ services:
     restart: unless-stopped
     security_opt:
       - no-new-privileges=true
-    ports:
-      - 8888:8080
     networks:
       - proxy-net
 
@@ -32,6 +30,7 @@ services:
     environment:
       CROWDSEC_BOUNCER_API_KEY: ${TRAEFIK_BOUNCER_KEY}
       CROWDSEC_AGENT_HOST: crowdsec:8080
+      GIN_MODE: release
     restart: unless-stopped
     depends_on:
       - crowdsec
