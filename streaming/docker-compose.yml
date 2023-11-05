@@ -15,7 +15,7 @@ volumes:
 
 services:
   jellyfin:
-    image: linuxserver/jellyfin:10.8.11
+    image: linuxserver/jellyfin:10.8.12
     container_name: jellyfin
     environment:
       - PUID=1000
