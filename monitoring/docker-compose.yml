@@ -32,7 +32,6 @@ services:
     volumes:
       - vmagent-data:/vmagentdata
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./config/homeassistant.token:/etc/prometheus/homeassistant.token
     command:
       - "--promscrape.config=/etc/prometheus/prometheus.yml"
       - "--remoteWrite.url=http://victoriametrics:8428/api/v1/write"
