@@ -1,6 +1,11 @@
-version: "3.9"
+version: "3"
+networks:
+  proxy-net:
+    external: true
+
 volumes:
   crowdsec-data:
+
 
 services:
   crowdsec:
@@ -37,7 +42,3 @@ services:
     networks:
       - proxy-net
     hostname: crowdsec-bouncer-traefik
-
-networks:
-  proxy-net:
-    external: true
