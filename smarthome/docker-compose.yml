@@ -1,15 +1,5 @@
 version: '3'
 networks:
-  hass-macvlan:
-    name: hass-macvlan
-    driver: macvlan
-    driver_opts:
-      parent: eno1
-    ipam:
-      config:
-        - subnet: 192.168.1.0/24
-          gateway: 192.168.1.1
-          ip_range: 192.168.1.12/32
   default:
     name: smarthome-net
   proxy-net:
@@ -58,26 +48,3 @@ services:
       - mosquitto-data:/mosquitto/data
       - /var/tmp/docker-storage/mosquitto-logs:/mosquitto/log
     user: 1000:1000
-
-  homeassistant:
-    image: linuxserver/homeassistant:2023.11.2
-    container_name: homeassistant
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Zurich
-    volumes:
-      - ./config/homeassistant:/config
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.homeassistant.entryPoints=websecure"
-      - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
-    ports:
-      - 8123:8123
-      - 21063:21063
-    networks:
-      default:
-      proxy-net:
-      hass-macvlan:
-        ipv4_address: 192.168.1.12
-    restart: unless-stopped
