@@ -108,6 +108,12 @@
     },
     {
       "matchPackageNames": [
+        "kpetrem/mqtt-exporter"
+      ],
+      "customChangelogUrl": "https://github.com/kpetremann/mqtt-exporter"
+    },
+    {
+      "matchPackageNames": [
         "vaultwarden/server"
       ],
       "customChangelogUrl": "https://github.com/dani-garcia/vaultwarden"
