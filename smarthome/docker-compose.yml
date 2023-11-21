@@ -48,3 +48,15 @@ services:
       - mosquitto-data:/mosquitto/data
       - /var/tmp/docker-storage/mosquitto-logs:/mosquitto/log
     user: 1000:1000
+
+  mqtt-exporter:
+    image: kpetrem/mqtt-exporter
+    container_name: mqtt-exporter
+    ports:
+      - 9000:9000
+    environment:
+      - MQTT_ADDRESS=mqtt
+      - PROMETHEUS_PREFIX=sensor_
+      - TOPIC_LABEL=sensor
+    restart: unless-stopped
+    user: 1000:1000
