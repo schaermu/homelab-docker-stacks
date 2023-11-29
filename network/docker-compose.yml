@@ -11,7 +11,7 @@ secrets:
 services:
   traefik:
     container_name: traefik
-    image: traefik:2.10.5
+    image: traefik:2.10.6
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
