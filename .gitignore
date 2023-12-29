@@ -1,6 +1,6 @@
 data/
 .env
-aws_credentials
+network/config/traefik/cf_*
 monitoring/config/homeassistant.token
 streaming/config
 network/config/etc-dnsmasq.d/*

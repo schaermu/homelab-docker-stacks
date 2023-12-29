@@ -7,7 +7,7 @@ certificatesResolvers:
       email: "schaermu+acme@pm.me"
       storage: "/etc/traefik/acme_letsencrypt.json"
       dnschallenge:
-        provider: route53
+        provider: cloudflare
 
 entryPoints:
   web:
