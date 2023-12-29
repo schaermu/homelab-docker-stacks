@@ -5,8 +5,10 @@ networks:
     name: proxy-net
 
 secrets:
-  aws_credentials:
-    file: ./config/traefik/aws_credentials
+  cf_credentials_api_key:
+    file: ./config/traefik/cf_api_key
+  cf_credentials_email:
+    file: ./config/traefik/cf_email
 
 services:
   traefik:
@@ -28,9 +30,11 @@ services:
     networks:
       - default
     secrets:
-      - aws_credentials
+      - cf_credentials_api_key
+      - cf_credentials_email
     environment:
-      - AWS_SHARED_CREDENTIALS_FILE=/run/secrets/aws_credentials
+      - CF_DNS_API_TOKEN_FILE=/run/secrets/cf_credentials_api_key
+      - CF_EMAIL_FILE=/run/secrets/cf_credentials_email
     hostname: traefik
     ports:
       - 80:80
