@@ -8,7 +8,7 @@ networks:
 
 services:
   schaermu:
-    image: ghcr.io/schaermu/schaermu-ch:2024.2.1
+    image: ghcr.io/schaermu/schaermu-ch:2024.2.2
     container_name: schaermu-web
     restart: always
     networks:
