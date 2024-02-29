@@ -74,7 +74,7 @@ services:
 
   mariadb:
     restart: unless-stopped
-    image: mariadb:11.2
+    image: mariadb:11.3
     container_name: mariadb
     security_opt:
       # see https://github.com/MariaDB/mariadb-docker/issues/434#issuecomment-1136151239
