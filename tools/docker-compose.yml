@@ -12,7 +12,7 @@ volumes:
 
 services:
   vaultwarden:
-    image: vaultwarden/server:1.30.3
+    image: vaultwarden/server:1.30.4
     container_name: vaultwarden
     restart: always
     environment:
