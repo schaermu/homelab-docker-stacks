@@ -64,9 +64,10 @@
       ],
       "customChangelogUrl": "https://github.com/Fallenbagel/jellyseerr"
     },
-    {
-      "matchPackageNames": [
-        "victoriametrics/*"
+    {    
+      "groupName": "victoriametrics",
+      "matchPackagePrefixes": [
+        "victoriametrics"
       ],
       "customChangelogUrl": "https://github.com/VictoriaMetrics/VictoriaMetrics"
     },

@@ -18,7 +18,7 @@ volumes:
 
 services:
   vmagent:
-    image: victoriametrics/vmagent:v1.96.0
+    image: victoriametrics/vmagent:v1.99.0
     container_name: vmagent
     depends_on:
       - victoriametrics
@@ -39,7 +39,7 @@ services:
 
   victoriametrics:
     container_name: victoriametrics
-    image: victoriametrics/victoria-metrics:v1.96.0
+    image: victoriametrics/victoria-metrics:v1.99.0
     ports:
       - 8428:8428
       - 8089:8089
@@ -60,7 +60,7 @@ services:
       - default
 
   grafana:
-    image: grafana/grafana-oss:10.2.3
+    image: grafana/grafana-oss:10.4.0
     container_name: grafana
     labels:
       - "traefik.enable=true"

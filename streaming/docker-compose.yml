@@ -45,7 +45,7 @@ services:
     restart: unless-stopped
 
   navidrome:
-    image: deluan/navidrome:0.50.2
+    image: deluan/navidrome:0.51.1
     container_name: navidrome
     labels:
       - "traefik.enable=true"
@@ -90,7 +90,7 @@ services:
     restart: unless-stopped
 
   sonarr:
-    image: linuxserver/sonarr:3.0.10
+    image: linuxserver/sonarr:4.0.2
     container_name: sonarr
     environment:
       - PUID=1000
@@ -113,7 +113,7 @@ services:
     restart: unless-stopped
 
   radarr:
-    image: linuxserver/radarr:5.2.6
+    image: linuxserver/radarr:5.3.6
     container_name: radarr
     labels:
       - "traefik.enable=true"
@@ -136,7 +136,7 @@ services:
     restart: unless-stopped
 
   bazarr:
-    image: linuxserver/bazarr:1.4.0
+    image: linuxserver/bazarr:1.4.2
     container_name: bazarr
     environment:
       - PUID=1000
@@ -158,7 +158,7 @@ services:
     restart: unless-stopped
 
   jackett:
-    image: linuxserver/jackett:0.21.1454
+    image: linuxserver/jackett:0.21.1973
     container_name: jackett
     environment:
       - PUID=1000
