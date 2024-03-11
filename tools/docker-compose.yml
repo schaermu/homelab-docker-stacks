@@ -16,7 +16,6 @@ services:
     container_name: vaultwarden
     restart: always
     environment:
-      - WEBSOCKET_ENABLED=false
       - DOMAIN=https://${DNS_CNAME_VAULTWARDEN}
     networks:
       - default
