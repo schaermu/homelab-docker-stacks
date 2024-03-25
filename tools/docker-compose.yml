@@ -53,8 +53,9 @@ services:
         condition: service_started
 
   playwright-chrome:
-    hostname: playwright-chrome
     image: dgtlmoon/sockpuppetbrowser:latest
+    container_name: changedetection-playwright
+    hostname: playwright-chrome
     cap_add:
       - SYS_ADMIN
     restart: unless-stopped
