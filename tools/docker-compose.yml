@@ -46,8 +46,8 @@ services:
       - proxy-net
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.vaultwarden.entrypoints=websecure"
-      - "traefik.http.services.vaultwarden-tools.loadbalancer.server.port=5000"
+      - "traefik.http.routers.changedetection.entrypoints=websecure"
+      - "traefik.http.services.changedetection-tools.loadbalancer.server.port=5000"
     depends_on:
       playwright-chrome:
         condition: service_started
