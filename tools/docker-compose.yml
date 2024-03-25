@@ -8,6 +8,7 @@ networks:
 
 volumes:
   vaultwarden-data:
+  changedetection-data:
 
 
 services:
@@ -27,3 +28,38 @@ services:
       - "traefik.http.routers.vaultwarden.entrypoints=websecure"
       - "traefik.http.routers.vaultwarden.rule=Host(`${DNS_CNAME_VAULTWARDEN}`)"
       - "traefik.http.services.vaultwarden-tools.loadbalancer.server.port=80"
+
+  changedetection:
+    image: linuxserver/changedetection.io:0.45.16
+    container_name: changedetection
+    hostname: changedetection
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Zurich
+      - BASE_URL=https://changedetection.home.hpfr.ch
+      - PLAYWRIGHT_DRIVER_URL=ws://playwright-chrome:3000
+    volumes:
+      - changedetection-data:/datastore
+    networks:
+      - default
+      - proxy-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vaultwarden.entrypoints=websecure"
+      - "traefik.http.services.vaultwarden-tools.loadbalancer.server.port=5000"
+    depends_on:
+      playwright-chrome:
+        condition: service_started
+
+  playwright-chrome:
+    hostname: playwright-chrome
+    image: dgtlmoon/sockpuppetbrowser:latest
+    cap_add:
+      - SYS_ADMIN
+    restart: unless-stopped
+    environment:
+      - SCREEN_WIDTH=1920
+      - SCREEN_HEIGHT=1024
+      - SCREEN_DEPTH=16
+      - MAX_CONCURRENT_CHROME_PROCESSES=10
