@@ -30,7 +30,7 @@ services:
       - "traefik.http.services.vaultwarden-tools.loadbalancer.server.port=80"
 
   changedetection:
-    image: linuxserver/changedetection.io:0.45.20230906
+    image: linuxserver/changedetection.io:0.45.16
     container_name: changedetection
     hostname: changedetection
     environment:
