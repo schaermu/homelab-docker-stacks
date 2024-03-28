@@ -18,6 +18,7 @@ services:
     restart: always
     environment:
       - DOMAIN=https://${DNS_CNAME_VAULTWARDEN}
+      - SIGNUPS_ALLOWED=false
     networks:
       - default
       - proxy-net
