@@ -50,7 +50,7 @@ services:
     user: 1000:1000
 
   mqtt-exporter:
-    image: kpetrem/mqtt-exporter:1.4.1
+    image: kpetrem/mqtt-exporter:1.4.2
     container_name: mqtt-exporter
     ports:
       - 9000:9000
