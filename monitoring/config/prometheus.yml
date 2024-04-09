@@ -2,23 +2,25 @@ global:
   scrape_interval: 10s
 
 scrape_configs:
-  - job_name: 'vmagent'
+  - job_name: "vmagent"
     static_configs:
-      - targets: ['vmagent:8429']
+      - targets: ["vmagent:8429"]
 
-  - job_name: 'victoriametrics'
+  - job_name: "victoriametrics"
     static_configs:
-      - targets: ['victoriametrics:8428']
+      - targets: ["victoriametrics:8428"]
 
-  - job_name: 'reverseproxy'
+  - job_name: "reverseproxy"
     static_configs:
-      - targets: ['crowdsec:6060','traefik:8080']
+      - targets: ["crowdsec:6060", "traefik:8080"]
 
   - job_name: mqtt-exporter
     static_configs:
       - targets: ["mqtt-exporter:9000"]
     metric_relabel_configs:
       - source_labels: [sensor]
-        regex: 'zigbee2mqtt_(.*)'
-        replacement: '$1'
+        regex: "zigbee2mqtt_(.*)"
+        replacement: "$1"
         target_label: sensor
+
+  - job_name: "changedetection"
