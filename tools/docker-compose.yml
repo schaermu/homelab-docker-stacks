@@ -10,7 +10,6 @@ volumes:
   vaultwarden-data:
   changedetection-data:
 
-
 services:
   vaultwarden:
     image: vaultwarden/server:1.30.5
@@ -73,3 +72,16 @@ services:
       - DEFAULT_BLOCK_ADS=true
       - DEFAULT_STEALTH=true
       - DEFAULT_IGNORE_HTTPS_ERRORS=true
+
+  changedetection-exporter:
+    image: ghcr.io/schaermu/changedetection.io-exporter:0.1.0
+    container_name: changedetection-exporter
+    restart: unless-stopped
+    networks:
+      - default
+    environment:
+      - CDIO_API_BASE_URL=http://changedetection:5000
+      - CDIO_API_KEY=${CDIO_API_KEY}
+    depends_on:
+      changedetection:
+        condition: service_started

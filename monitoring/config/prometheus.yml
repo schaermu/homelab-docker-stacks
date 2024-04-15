@@ -24,3 +24,6 @@ scrape_configs:
         target_label: sensor
 
   - job_name: "changedetection"
+    scrape_interval: 30s
+    static_configs:
+      - targets: ["changedetection-exporter:9123"]
