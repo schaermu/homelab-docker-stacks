@@ -74,7 +74,7 @@ services:
       - DEFAULT_IGNORE_HTTPS_ERRORS=true
 
   changedetection-exporter:
-    image: ghcr.io/schaermu/changedetection.io-exporter:0.1.1
+    image: ghcr.io/schaermu/changedetection.io-exporter:0.1.2
     container_name: changedetection-exporter
     restart: unless-stopped
     networks:
