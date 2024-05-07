@@ -50,7 +50,7 @@ providers:
   providersThrottleDuration: 10
 
 log:
-  level: "WARNING"
+  level: WARN
   filePath: "/var/log/traefik/traefik.log"
 
 accessLog:
