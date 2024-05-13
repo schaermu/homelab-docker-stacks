@@ -45,7 +45,7 @@ services:
     restart: unless-stopped
 
   navidrome:
-    image: deluan/navidrome:0.52.0
+    image: deluan/navidrome:0.52.5
     container_name: navidrome
     labels:
       - "traefik.enable=true"
