@@ -14,36 +14,36 @@ entryPoints:
     address: ":80"
     http:
       redirections:
-         entryPoint:
-           to: "websecure"
-           scheme: "https"
+        entryPoint:
+          to: "websecure"
+          scheme: "https"
 
   websecure:
     address: ":443"
     http:
       tls:
-         certResolver: letsencrypt
-         domains:
-           - main: hpfr.ch
-             sans:
-               - "*.hpfr.ch"
-               - "*.home.hpfr.ch"
-           - main: schaermu.ch
-             sans:
-               - "*.schaermu.ch"
+        certResolver: letsencrypt
+        domains:
+          - main: hpfr.ch
+            sans:
+              - "*.hpfr.ch"
+              - "*.home.hpfr.ch"
+          - main: schaermu.ch
+            sans:
+              - "*.schaermu.ch"
       middlewares:
         - default@file
 
 global:
-  checknewversion: true
-  sendanonymoususage: false
+  checkNewVersion: true
+  sendAnonymousUsage: false
 
 providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
     network: "proxy-net"
-    defaultRule: "Host(`{{ index .Labels \"com.docker.compose.service\" }}.home.hpfr.ch`)"
+    defaultRule: 'Host(`{{ index .Labels "com.docker.compose.service" }}.home.hpfr.ch`)'
   file:
     filename: "/etc/traefik/dynamic.conf.yml"
     watch: true
