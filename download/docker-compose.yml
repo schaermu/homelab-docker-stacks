@@ -52,7 +52,7 @@ services:
     restart: unless-stopped
 
   sabnzbd:
-    image: linuxserver/sabnzbd:4.3.1
+    image: linuxserver/sabnzbd:4.3.2
     container_name: sabnzbd
     labels:
       - "traefik.enable=true"
