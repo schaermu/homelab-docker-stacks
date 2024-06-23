@@ -8,7 +8,7 @@ services:
   schaermu:
     image: ghcr.io/schaermu/schaermu-ch:2024.4.0
     container_name: schaermu-web
-    restart: always
+    restart: on-failure:5
     networks:
       - default
       - proxy-net

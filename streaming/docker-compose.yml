@@ -15,6 +15,7 @@ services:
   jellyfin:
     image: linuxserver/jellyfin:10.9.6
     container_name: jellyfin
+    restart: on-failure:5
     environment:
       - PUID=1000
       - PGID=1000
@@ -40,11 +41,11 @@ services:
     networks:
       - default
       - proxy-net
-    restart: unless-stopped
 
   navidrome:
     image: deluan/navidrome:0.52.5
     container_name: navidrome
+    restart: on-failure:5
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.navidrome-http.entrypoints=websecure"
@@ -62,11 +63,11 @@ services:
     networks:
       - proxy-net
       - default
-    restart: unless-stopped
 
   lidarr:
     image: linuxserver/lidarr:1.1.4.3027-ls119
     container_name: lidarr
+    restart: on-failure:5
     environment:
       - PUID=1000
       - PGID=1000
@@ -85,11 +86,11 @@ services:
       - download-net
       - proxy-net
       - default
-    restart: unless-stopped
 
   sonarr:
     image: linuxserver/sonarr:4.0.5
     container_name: sonarr
+    restart: on-failure:5
     environment:
       - PUID=1000
       - PGID=1000
@@ -108,11 +109,11 @@ services:
       - download-net
       - proxy-net
       - default
-    restart: unless-stopped
 
   radarr:
     image: linuxserver/radarr:5.7.0
     container_name: radarr
+    restart: on-failure:5
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.radarr.entryPoints=websecure"
@@ -131,11 +132,11 @@ services:
       - download-net
       - proxy-net
       - default
-    restart: unless-stopped
 
   bazarr:
     image: linuxserver/bazarr:1.4.3
     container_name: bazarr
+    restart: on-failure:5
     environment:
       - PUID=1000
       - PGID=1000
@@ -153,11 +154,11 @@ services:
     networks:
       - default
       - proxy-net
-    restart: unless-stopped
 
   jackett:
     image: linuxserver/jackett:0.22.188
     container_name: jackett
+    restart: on-failure:5
     environment:
       - PUID=1000
       - PGID=1000
@@ -174,11 +175,11 @@ services:
     networks:
       - default
       - proxy-net
-    restart: unless-stopped
 
   jellyseerr:
     image: fallenbagel/jellyseerr:1.9.2
     container_name: jellyseerr
+    restart: on-failure:5
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jellyseerr-http.entrypoints=websecure"
@@ -194,7 +195,6 @@ services:
       - proxy-net
     volumes:
       - ./config/jellyseerr:/app/config
-    restart: unless-stopped
     depends_on:
       - radarr
       - sonarr

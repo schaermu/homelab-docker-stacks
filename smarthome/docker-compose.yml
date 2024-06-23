@@ -13,7 +13,7 @@ services:
   zigbee2mqtt:
     image: koenkk/zigbee2mqtt:1.38.0
     container_name: zigbee2mqtt
-    restart: unless-stopped
+    restart: on-failure:5
     volumes:
       - zigbee2mqtt-data:/app/data
       - ./config/zigbee2mqtt/configuration.yaml:/app/data/configuration.yaml
@@ -36,7 +36,7 @@ services:
   mqtt:
     image: eclipse-mosquitto:2.0.18
     container_name: mqtt
-    restart: always
+    restart: on-failure:5
     ports:
       - 1883:1883
       - 9001:9001
@@ -51,11 +51,11 @@ services:
   mqtt-exporter:
     image: kpetrem/mqtt-exporter:1.4.7
     container_name: mqtt-exporter
+    restart: on-failure:5
     ports:
       - 9000:9000
     environment:
       - MQTT_ADDRESS=mqtt
       - PROMETHEUS_PREFIX=sensor_
       - TOPIC_LABEL=sensor
-    restart: unless-stopped
     user: 1000:1000

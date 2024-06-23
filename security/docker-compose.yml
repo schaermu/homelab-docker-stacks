@@ -8,8 +8,9 @@ volumes:
 
 services:
   crowdsec:
-    container_name: crowdsec
     image: crowdsecurity/crowdsec:v1.6.2
+    container_name: crowdsec
+    restart: on-failure:5
     environment:
       GID: "${GID-1000}"
       COLLECTIONS: "crowdsecurity/sshd crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors crowdsecurity/iptables"
@@ -22,20 +23,19 @@ services:
       - /var/log/ufw.log:/logs/ufw.log:ro
       - /var/log/syslog:/logs/syslog:ro
       - /var/log/traefik:/logs/traefik:ro
-    restart: unless-stopped
     security_opt:
       - no-new-privileges=true
     networks:
       - proxy-net
 
   bouncer-traefik:
-    container_name: crowdsec-bouncer-traefik
     image: fbonalair/traefik-crowdsec-bouncer:0.5
+    container_name: crowdsec-bouncer-traefik
+    restart: on-failure:5
     environment:
       CROWDSEC_BOUNCER_API_KEY: ${TRAEFIK_BOUNCER_KEY}
       CROWDSEC_AGENT_HOST: crowdsec:8080
       GIN_MODE: release
-    restart: unless-stopped
     depends_on:
       - crowdsec
     networks:
