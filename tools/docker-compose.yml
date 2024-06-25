@@ -12,7 +12,7 @@ services:
   vaultwarden:
     image: vaultwarden/server:1.30.5
     container_name: vaultwarden
-    restart: on-failure:5
+    restart: unless-stopped
     environment:
       - DOMAIN=https://${DNS_CNAME_VAULTWARDEN}
       - SIGNUPS_ALLOWED=false
@@ -30,7 +30,7 @@ services:
   changedetection:
     image: linuxserver/changedetection.io:0.45.16
     container_name: changedetection
-    restart: on-failure:5
+    restart: unless-stopped
     hostname: changedetection
     environment:
       - PUID=1000
@@ -54,7 +54,7 @@ services:
   playwright-chrome:
     image: dgtlmoon/sockpuppetbrowser:latest
     container_name: changedetection-playwright
-    restart: on-failure:5
+    restart: unless-stopped
     hostname: playwright-chrome
     cap_add:
       - SYS_ADMIN
@@ -75,7 +75,7 @@ services:
   changedetection-exporter:
     image: ghcr.io/schaermu/changedetection.io-exporter:0.1.2
     container_name: changedetection-exporter
-    restart: on-failure:5
+    restart: unless-stopped
     networks:
       - default
     environment:

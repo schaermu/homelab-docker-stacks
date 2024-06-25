@@ -12,7 +12,7 @@ services:
   photoprism:
     image: photoprism/photoprism:221118-jammy
     container_name: photoprism
-    restart: on-failure:5
+    restart: unless-stopped
     depends_on:
       - mariadb
     networks:
@@ -73,7 +73,7 @@ services:
   mariadb:
     image: mariadb:11.4
     container_name: mariadb
-    restart: on-failure:5
+    restart: unless-stopped
     security_opt:
       # see https://github.com/MariaDB/mariadb-docker/issues/434#issuecomment-1136151239
       - seccomp:unconfined

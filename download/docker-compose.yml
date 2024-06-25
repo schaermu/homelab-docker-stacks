@@ -9,7 +9,7 @@ services:
   wireguard:
     image: linuxserver/wireguard:1.0.20210914
     container_name: wireguard
-    restart: on-failure:5
+    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.transmission.rule=Host(`transmission.home.hpfr.ch`)"
@@ -40,7 +40,7 @@ services:
   transmission:
     image: linuxserver/transmission:4.0.6
     container_name: transmission
-    restart: on-failure:5
+    restart: unless-stopped
     network_mode: service:wireguard
     environment:
       - PUID=1000
@@ -54,7 +54,7 @@ services:
   sabnzbd:
     image: linuxserver/sabnzbd:4.3.2
     container_name: sabnzbd
-    restart: on-failure:5
+    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.sabnzbd.entryPoints=websecure"

@@ -19,7 +19,7 @@ services:
   vmagent:
     image: victoriametrics/vmagent:v1.101.0
     container_name: vmagent
-    restart: on-failure:5
+    restart: unless-stopped
     depends_on:
       - victoriametrics
     ports:
@@ -39,7 +39,7 @@ services:
   victoriametrics:
     container_name: victoriametrics
     image: victoriametrics/victoria-metrics:v1.101.0
-    restart: on-failure:5
+    restart: unless-stopped
     ports:
       - 8428:8428
       - 8089:8089
@@ -61,7 +61,7 @@ services:
   grafana:
     image: grafana/grafana-oss:11.1.0
     container_name: grafana
-    restart: on-failure:5
+    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.grafana.entrypoints=websecure"

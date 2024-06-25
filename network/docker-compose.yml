@@ -12,7 +12,7 @@ services:
   traefik:
     image: traefik:v3.0.3
     container_name: traefik
-    restart: on-failure:5
+    restart: unless-stopped
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -41,7 +41,7 @@ services:
   pihole:
     image: pihole/pihole:2024.06.0
     container_name: pihole
-    restart: on-failure:5
+    restart: unless-stopped
     ports:
       - "53:53/tcp"
       - "53:53/udp"
