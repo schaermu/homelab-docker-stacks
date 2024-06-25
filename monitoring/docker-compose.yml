@@ -59,7 +59,7 @@ services:
       - default
 
   grafana:
-    image: grafana/grafana-oss:11.0.0
+    image: grafana/grafana-oss:11.1.0
     container_name: grafana
     restart: on-failure:5
     labels:
