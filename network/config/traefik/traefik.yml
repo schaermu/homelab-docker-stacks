@@ -47,7 +47,7 @@ providers:
   file:
     filename: "/etc/traefik/dynamic.conf.yml"
     watch: true
-  providersThrottleDuration: 10
+  providersThrottleDuration: 10s
 
 log:
   level: WARN
