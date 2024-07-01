@@ -88,6 +88,7 @@ services:
 
   invidious:
     image: quay.io/invidious/invidious:latest
+    container_name: invidious
     restart: unless-stopped
     networks:
       - default
@@ -123,6 +124,7 @@ services:
 
   invidious-db:
     image: docker.io/library/postgres:14
+    container_name: invidious-db
     restart: unless-stopped
     volumes:
       - invidious-data:/var/lib/postgresql/data
