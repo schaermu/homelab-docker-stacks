@@ -87,7 +87,7 @@ services:
         condition: service_started
 
   invidious:
-    image: quay.io/invidious/invidious:2024.04.26
+    image: quay.io/invidious/invidious:latest
     restart: unless-stopped
     ports:
       - "127.0.0.1:3000:3000"
