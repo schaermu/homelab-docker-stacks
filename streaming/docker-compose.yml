@@ -111,7 +111,7 @@ services:
       - default
 
   radarr:
-    image: linuxserver/radarr:5.8.3
+    image: linuxserver/radarr:5.9.1
     container_name: radarr
     restart: unless-stopped
     labels:
