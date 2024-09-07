@@ -13,7 +13,7 @@ services:
     restart: unless-stopped
     environment:
       GID: "${GID-1000}"
-      COLLECTIONS: "crowdsecurity/sshd crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors crowdsecurity/iptables"
+      COLLECTIONS: "crowdsecurity/sshd crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors crowdsecurity/iptables crowdsecurity/base-http-scenarios"
     volumes:
       - ./config:/etc/crowdsec
       - crowdsec-data:/var/lib/crowdsec/data
@@ -27,6 +27,8 @@ services:
       - no-new-privileges=true
     networks:
       - proxy-net
+    ports:
+      - 127.0.0.1:8888:8080
 
   bouncer-traefik:
     image: fbonalair/traefik-crowdsec-bouncer:0.5
