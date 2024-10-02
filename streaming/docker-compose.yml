@@ -134,7 +134,7 @@ services:
       - default
 
   bazarr:
-    image: linuxserver/bazarr:1.4.4
+    image: linuxserver/bazarr:1.4.5
     container_name: bazarr
     restart: unless-stopped
     environment:
