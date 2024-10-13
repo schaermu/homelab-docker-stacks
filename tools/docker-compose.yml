@@ -11,7 +11,7 @@ volumes:
 
 services:
   vaultwarden:
-    image: vaultwarden/server:1.32.1
+    image: vaultwarden/server:1.32.2
     container_name: vaultwarden
     restart: unless-stopped
     environment:
