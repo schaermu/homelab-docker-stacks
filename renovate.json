@@ -84,10 +84,11 @@
       "customChangelogUrl": "https://github.com/grafana/grafana"
     },
     {
-      "matchPackageNames": [
-        "photoprism/photoprism"
+      "groupName": "immich",
+      "matchPackagePrefixes": [
+        "ghcr.io/immich-app"
       ],
-      "customChangelogUrl": "https://github.com/photoprism/photoprism"
+      "customChangelogUrl": "https://github.com/immich-app/immich"
     },
     {
       "matchPackageNames": [
