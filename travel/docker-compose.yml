@@ -1,0 +1,84 @@
+networks:
+  default:
+    name: travel-net
+  proxy-net:
+    external: true
+
+volumes:
+  adventurelog-postgres-data:
+  adventurelog-media:
+
+services:
+  web:
+    image: ghcr.io/seanmorley15/adventurelog-frontend:v0.7.0
+    container_name: adventurelog-frontend
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.adventurelog-web.entryPoints=websecure"
+      - "traefik.http.services.adventurelog-web.loadbalancer.server.port=3000"
+      - "traefik.http.routers.adventurelog-web.rule=Host(`${DNS_CNAME}`) && !PathPrefix(`/media`)"
+    environment:
+      - PUBLIC_SERVER_URL=http://server:8000
+      - BODY_SIZE_LIMIT=Infinity
+    networks:
+      - default
+      - proxy-net
+    depends_on:
+      - server
+
+  db:
+    image: postgis/postgis:15-3.3
+    container_name: adventurelog-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - adventurelog-postgres-data:/var/lib/postgresql/data/
+    healthcheck:
+      test: pg_isready --dbname='${DB_DATABASE_NAME}' --username='${DB_USERNAME}' || exit 1; Chksum="$$(psql --dbname='${DB_DATABASE_NAME}' --username='${DB_USERNAME}' --tuples-only --no-align --command='SELECT COALESCE(SUM(checksum_failures), 0) FROM pg_stat_database')"; echo "checksum failure count is $$Chksum"; [ "$$Chksum" = '0' ] || exit 1
+      interval: 5m
+      start_interval: 30s
+      start_period: 5m
+
+  server:
+    image: ghcr.io/seanmorley15/adventurelog-backend:v0.7.0
+    container_name: adventurelog-backend
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - PGHOST=db
+      - PGDATABASE=${DB_DATABASE_NAME}
+      - PGUSER=${DB_USERNAME}
+      - PGPASSWORD=${DB_PASSWORD}
+      - PUBLIC_URL=https://${DNS_CNAME}
+      - CSRF_TRUSTED_ORIGINS=https://${DNS_CNAME}
+      - DEBUG=False
+      - FRONTEND_URL=https://${DNS_CNAME}
+      - DISABLE_REGISTRATION=True
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    volumes:
+      - adventurelog-media:/code/media/
+
+  nginx:
+    image: nginx:latest
+    container_name: adventurelog-nginx
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.adventurelog-nginx.entryPoints=websecure"
+      - "traefik.http.routers.adventurelog-nginx.rule=Host(`${DNS_CNAME}`) && PathPrefix(`/media`)"
+      - "traefik.http.middlewares.nginx-stripprefix.stripprefix.prefixes=/media"
+      - "traefik.http.routers.adventurelog-nginx.middlewares=nginx-stripprefix"
+    volumes:
+      - adventurelog-media:/usr/share/nginx/html
+    networks:
+      - default
+      - proxy-net
+    depends_on:
+      - server
