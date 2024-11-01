@@ -144,6 +144,13 @@
         "ghcr.io/schaermu/changedetection.io-exporter"
       ],
       "customChangelogUrl": "https://github.com/schaermu/changedetection.io-exporter"
-    }
+    },
+    {
+      "groupName": "adventurelog",
+      "matchPackagePrefixes": [
+        "ghcr.io/seanmorley15/adventurelog"
+      ],
+      "customChangelogUrl": "https://github.com/seanmorley15/AdventureLog"
+    },
   ]
 }
