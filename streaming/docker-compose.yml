@@ -13,7 +13,7 @@ volumes:
 
 services:
   jellyfin:
-    image: linuxserver/jellyfin:10.10.0
+    image: linuxserver/jellyfin:10.10.1
     container_name: jellyfin
     restart: unless-stopped
     environment:
