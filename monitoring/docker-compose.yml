@@ -17,7 +17,7 @@ volumes:
 
 services:
   vmagent:
-    image: victoriametrics/vmagent:v1.106.1
+    image: victoriametrics/vmagent:v1.107.0
     container_name: vmagent
     restart: unless-stopped
     depends_on:
@@ -38,7 +38,7 @@ services:
 
   victoriametrics:
     container_name: victoriametrics
-    image: victoriametrics/victoria-metrics:v1.106.1
+    image: victoriametrics/victoria-metrics:v1.107.0
     restart: unless-stopped
     ports:
       - 8428:8428
