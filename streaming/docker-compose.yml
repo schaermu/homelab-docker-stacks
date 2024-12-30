@@ -177,7 +177,7 @@ services:
       - proxy-net
 
   jellyseerr:
-    image: fallenbagel/jellyseerr:2.1.0
+    image: fallenbagel/jellyseerr:2.2.3
     container_name: jellyseerr
     restart: unless-stopped
     labels:
