@@ -96,7 +96,7 @@ services:
       - default
       - proxy-net
     depends_on:
-      db:
+      vikunja-db:
         condition: service_healthy
     restart: unless-stopped
     labels:
