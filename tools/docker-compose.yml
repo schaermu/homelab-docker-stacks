@@ -8,6 +8,8 @@ volumes:
   vaultwarden-data:
   changedetection-data:
   invidious-data:
+  vikunja-data:
+  vikunja-files:
 
 services:
   vaultwarden:
@@ -78,3 +80,38 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+
+  vikunja:
+    image: vikunja/vikunja:0.24.6
+    environment:
+      VIKUNJA_SERVICE_PUBLICURL: http://kanban.home.hpfr.ch
+      VIKUNJA_DATABASE_HOST: vikunja-db
+      VIKUNJA_DATABASE_PASSWORD: ${VIKUNJA_POSTGRES_PASSWORD}
+      VIKUNJA_DATABASE_TYPE: postgres 
+      VIKUNJA_DATABASE_USER: vikunja
+      VIKUNJA_DATABASE_DATABASE: vikunja
+      VIKUNJA_SERVICE_JWTSECRET: ${VIKUNJA_JWT_SECRET}
+    volumes: 
+      - vikunja-files:/app/vikunja/files
+    networks:
+      - default
+      - proxy-net
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jackett.entryPoints=websecure"
+
+  vikunja-db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: ${VIKUNJA_POSTGRES_PASSWORD}
+      POSTGRES_USER: vikunja
+    volumes:
+      - vikunja-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 2s
