@@ -6,7 +6,6 @@ networks:
 
 volumes:
   vaultwarden-data:
-  changedetection-data:
   invidious-data:
   vikunja-data:
   vikunja-files:
