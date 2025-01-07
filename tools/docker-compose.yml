@@ -82,6 +82,7 @@ services:
 
   vikunja:
     image: vikunja/vikunja:0.24.6
+    container_name: vikunja
     environment:
       VIKUNJA_SERVICE_PUBLICURL: http://kanban.home.hpfr.ch
       VIKUNJA_DATABASE_HOST: vikunja-db
@@ -105,6 +106,7 @@ services:
 
   vikunja-db:
     image: postgres:16
+    container_name: vikunja-db
     environment:
       POSTGRES_PASSWORD: ${VIKUNJA_POSTGRES_PASSWORD}
       POSTGRES_USER: vikunja
