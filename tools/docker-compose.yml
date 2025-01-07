@@ -83,6 +83,10 @@ services:
   vikunja:
     image: vikunja/vikunja:0.24.6
     container_name: vikunja
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vikunja.entryPoints=websecure"
+      - "traefik.http.services.vikunja.loadbalancer.server.port=3456"
     environment:
       VIKUNJA_SERVICE_PUBLICURL: https://vikunja.home.hpfr.ch
       VIKUNJA_DATABASE_HOST: vikunja-db
@@ -100,9 +104,6 @@ services:
       vikunja-db:
         condition: service_healthy
     restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.jackett.entryPoints=websecure"
 
   vikunja-db:
     image: postgres:16
