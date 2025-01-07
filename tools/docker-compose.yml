@@ -43,8 +43,8 @@ services:
     environment:
       INVIDIOUS_CONFIG: |
         db:
-          user: ${POSTGRES_USER}
-          password: ${POSTGRES_PASSWORD}
+          user: ${INVIDIOUS_POSTGRES_USER}
+          password: ${INVIDIOUS_POSTGRES_PASSWORD}
           host: invidious-db
           port: 5432
           dbname: invidious
