@@ -10,7 +10,7 @@ secrets:
 
 services:
   traefik:
-    image: traefik:v3.3.0
+    image: traefik:v3.3.1
     container_name: traefik
     restart: unless-stopped
     volumes:
