@@ -49,7 +49,7 @@ services:
     user: 1000:1000
 
   mqtt-exporter:
-    image: kpetrem/mqtt-exporter:1.5.0
+    image: kpetrem/mqtt-exporter:1.6.0
     container_name: mqtt-exporter
     restart: unless-stopped
     ports:
