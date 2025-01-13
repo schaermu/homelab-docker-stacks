@@ -39,7 +39,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.invidious.entrypoints=websecure"
-      - "traefik.http.routers.invidious.rule=Host(`${DNS_CNAME_INVIDIOUS}`)"
       - "traefik.http.services.invidious-tools.loadbalancer.server.port=3000"
     environment:
       INVIDIOUS_CONFIG: |

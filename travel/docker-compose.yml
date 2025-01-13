@@ -9,7 +9,7 @@ volumes:
   adventurelog-media:
 
 services:
-  web:
+  travel:
     image: ghcr.io/seanmorley15/adventurelog-frontend:v0.8.0
     container_name: adventurelog-frontend
     restart: unless-stopped
@@ -25,9 +25,9 @@ services:
       - default
       - proxy-net
     depends_on:
-      - server
+      - travel-backend
 
-  db:
+  travel-db:
     image: postgis/postgis:15-3.3
     container_name: adventurelog-db
     restart: unless-stopped
@@ -43,7 +43,7 @@ services:
       start_interval: 30s
       start_period: 5m
 
-  server:
+  travel-backend:
     image: ghcr.io/seanmorley15/adventurelog-backend:v0.8.0
     container_name: adventurelog-backend
     restart: unless-stopped
@@ -61,7 +61,7 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      - travel-db
     volumes:
       - adventurelog-media:/code/media/
 
@@ -81,4 +81,4 @@ services:
       - default
       - proxy-net
     depends_on:
-      - server
+      - travel-backend

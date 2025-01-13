@@ -47,8 +47,8 @@ services:
       - "53:53/udp"
     environment:
       - TZ=Europe/Zurich
-      - FTLCONF_LOCAL_IPV4=192.168.1.11
-      - PIHOLE_DNS_=9.9.9.9;149.112.112.112
+      - FTLCONF_LOCAL_IPV4=192.168.1.11   
+      - PIHOLE_DNS_=172.28.0.1#5335
       - WEBPASSWORD=${PIHOLE_PASSWORD}
       - VIRTUAL_HOST=${PIHOLE_VIRTUAL_HOST}
     volumes:
