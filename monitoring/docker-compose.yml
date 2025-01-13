@@ -65,7 +65,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.grafana.entrypoints=websecure"
-      - "traefik.http.routers.grafana.rule=Host(`${DNS_CNAME_GRAFANA}`)"
     ports:
       - 3000:3000
     networks:

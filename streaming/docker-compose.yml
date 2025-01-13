@@ -49,7 +49,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.navidrome-http.entrypoints=websecure"
-      - "traefik.http.routers.navidrome-http.rule=Host(`${DNS_CNAME_NAVIDROME}`)"
     ports:
       - "4533:4533"
     hostname: navidrome
@@ -183,7 +182,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jellyseerr-http.entrypoints=websecure"
-      - "traefik.http.routers.jellyseerr-http.rule=Host(`${DNS_CNAME_JELLYSEERR}`)"
     environment:
       - LOG_LEVEL=debug
       - TZ=Europe/Zurich

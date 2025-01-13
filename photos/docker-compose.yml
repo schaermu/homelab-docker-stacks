@@ -22,7 +22,6 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.immich-server.entryPoints=websecure"
       - "traefik.http.services.immich-server.loadbalancer.server.port=2283"
-      - "traefik.http.routers.immich-server.rule=Host(`${DNS_CNAME}`)"
     networks:
       - default
       - proxy-net
