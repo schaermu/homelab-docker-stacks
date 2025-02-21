@@ -43,7 +43,7 @@ services:
       - proxy-net
 
   navidrome:
-    image: deluan/navidrome:0.54.4
+    image: deluan/navidrome:0.54.5
     container_name: navidrome
     restart: unless-stopped
     labels:
