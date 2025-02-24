@@ -39,7 +39,7 @@ services:
       - 443:443
 
   pihole:
-    image: pihole/pihole:2025.02.4
+    image: pihole/pihole:2025.02.5
     container_name: pihole
     restart: unless-stopped
     ports:
