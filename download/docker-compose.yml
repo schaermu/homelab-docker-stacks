@@ -52,7 +52,7 @@ services:
       - /mnt/media/downloads:/downloads
 
   sabnzbd:
-    image: linuxserver/sabnzbd:4.4.1
+    image: linuxserver/sabnzbd:4.5.0
     container_name: sabnzbd
     restart: unless-stopped
     labels:
