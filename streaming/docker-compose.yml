@@ -155,7 +155,7 @@ services:
       - proxy-net
 
   jackett:
-    image: linuxserver/jackett:0.22.1791
+    image: linuxserver/jackett:0.22.1822
     container_name: jackett
     restart: unless-stopped
     environment:
