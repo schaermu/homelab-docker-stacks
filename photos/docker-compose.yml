@@ -49,7 +49,7 @@ services:
 
   redis:
     container_name: immich-redis
-    image: docker.io/redis:6.2-alpine@sha256:3211c33a618c457e5d241922c975dbc4f446d0bdb2dc75694f5573ef8e2d01fa
+    image: docker.io/valkey/valkey:8-bookworm@sha256:4a9f847af90037d59b34cd4d4ad14c6e055f46540cf4ff757aaafb266060fa28
     healthcheck:
       test: redis-cli ping || exit 1
     env_file: .env
@@ -62,7 +62,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_DB: ${DB_DATABASE_NAME}
-      POSTGRES_INITDB_ARGS: '--data-checksums'
+      POSTGRES_INITDB_ARGS: "--data-checksums"
     volumes:
       - immich-postgres-data:/var/lib/postgresql/data
     healthcheck:
@@ -72,18 +72,18 @@ services:
       start_period: 5m
     command:
       [
-        'postgres',
-        '-c',
-        'shared_preload_libraries=vectors.so',
-        '-c',
+        "postgres",
+        "-c",
+        "shared_preload_libraries=vectors.so",
+        "-c",
         'search_path="$$user", public, vectors',
-        '-c',
-        'logging_collector=on',
-        '-c',
-        'max_wal_size=2GB',
-        '-c',
-        'shared_buffers=512MB',
-        '-c',
-        'wal_compression=on',
+        "-c",
+        "logging_collector=on",
+        "-c",
+        "max_wal_size=2GB",
+        "-c",
+        "shared_buffers=512MB",
+        "-c",
+        "wal_compression=on",
       ]
     restart: unless-stopped
