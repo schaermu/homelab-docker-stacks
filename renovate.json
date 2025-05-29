@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
   "packageRules": [
     {
@@ -23,37 +23,37 @@
         "linuxserver/jellyfin"
       ],
       "allowedVersions": "/^[0-9]{1,3}\\.[0-9]+\\.[0-9]+$/",
-      "customChangelogUrl": "https://github.com/jellyfin/jellyfin"
+      "changelogUrl": "https://github.com/jellyfin/jellyfin"
     },
     {
       "matchPackageNames": [
         "deluan/navidrome"
       ],
-      "customChangelogUrl": "https://github.com/navidrome/navidrome"
+      "changelogUrl": "https://github.com/navidrome/navidrome"
     },
     {
       "matchPackageNames": [
         "linuxserver/sonarr"
       ],
-      "customChangelogUrl": "https://github.com/Sonarr/Sonarr"
+      "changelogUrl": "https://github.com/Sonarr/Sonarr"
     },
     {
       "matchPackageNames": [
         "linuxserver/radarr"
       ],
-      "customChangelogUrl": "https://github.com/Radarr/Radarr"
+      "changelogUrl": "https://github.com/Radarr/Radarr"
     },
     {
       "matchPackageNames": [
         "llinuxserver/lidarr"
       ],
-      "customChangelogUrl": "https://github.com/linuxserver/docker-lidarr"
+      "changelogUrl": "https://github.com/linuxserver/docker-lidarr"
     },
     {
       "matchPackageNames": [
         "linuxserver/bazarr"
       ],
-      "customChangelogUrl": "https://github.com/morpheus65535/bazarr"
+      "changelogUrl": "https://github.com/morpheus65535/bazarr"
     },
     {
       "matchPackageNames": [
@@ -62,76 +62,76 @@
       "schedule": [
         "on friday"
       ],
-      "customChangelogUrl": "https://github.com/Jackett/Jackett"
+      "changelogUrl": "https://github.com/Jackett/Jackett"
     },
     {
       "matchPackageNames": [
         "fallenbagel/jellyseerr"
       ],
-      "customChangelogUrl": "https://github.com/Fallenbagel/jellyseerr"
+      "changelogUrl": "https://github.com/Fallenbagel/jellyseerr"
     },
     {
       "groupName": "victoriametrics",
-      "matchPackagePrefixes": [
-        "victoriametrics"
-      ],
-      "customChangelogUrl": "https://github.com/VictoriaMetrics/VictoriaMetrics"
+      "changelogUrl": "https://github.com/VictoriaMetrics/VictoriaMetrics",
+      "matchPackageNames": [
+        "victoriametrics{/,}**"
+      ]
     },
     {
       "matchPackageNames": [
         "grafana/grafana-oss"
       ],
-      "customChangelogUrl": "https://github.com/grafana/grafana"
+      "changelogUrl": "https://github.com/grafana/grafana"
     },
     {
       "groupName": "immich",
-      "matchPackagePrefixes": [
-        "ghcr.io/immich-app"
-      ],
-      "customChangelogUrl": "https://github.com/immich-app/immich"
+      "changelogUrl": "https://github.com/immich-app/immich",
+      "matchPackageNames": [
+        "ghcr.io/immich-app{/,}**"
+      ]
     },
     {
       "matchPackageNames": [
         "pihole/pihole"
       ],
-      "customChangelogUrl": "https://github.com/pi-hole/pi-hole"
+      "changelogUrl": "https://github.com/pi-hole/pi-hole"
     },
     {
       "matchPackageNames": [
         "traefik"
       ],
-      "customChangelogUrl": "https://github.com/traefik/traefik"
+      "changelogUrl": "https://github.com/traefik/traefik"
     },
     {
       "matchPackageNames": [
         "crowdsecurity/crowdsec"
       ],
-      "customChangelogUrl": "https://github.com/crowdsecurity/crowdsec"
+      "changelogUrl": "https://github.com/crowdsecurity/crowdsec"
     },
     {
       "matchPackageNames": [
         "koenkk/zigbee2mqtt"
       ],
-      "customChangelogUrl": "https://github.com/Koenkk/zigbee2mqtt"
+      "changelogUrl": "https://github.com/Koenkk/zigbee2mqtt"
     },
     {
       "matchPackageNames": [
         "kpetrem/mqtt-exporter"
       ],
-      "customChangelogUrl": "https://github.com/kpetremann/mqtt-exporter"
+      "changelogUrl": "https://github.com/kpetremann/mqtt-exporter"
     },
     {
       "matchPackageNames": [
         "vaultwarden/server"
       ],
-      "customChangelogUrl": "https://github.com/dani-garcia/vaultwarden"
+      "changelogUrl": "https://github.com/dani-garcia/vaultwarden"
     },
     {
       "matchPackageNames": [
         "linuxserver/transmission"
       ],
       "allowedVersions": "/^[0-9]{1,3}\\.[0-9]+\\.[0-9]+$/",
-      "customChangelogUrl": "https://github.com/linuxserver/docker-transmission"
+      "changelogUrl": "https://github.com/linuxserver/docker-transmission"
     },
     {
       "matchPackageNames": [
@@ -143,21 +143,21 @@
       "matchPackageNames": [
         "ghcr.io/schaermu/changedetection.io-exporter"
       ],
-      "customChangelogUrl": "https://github.com/schaermu/changedetection.io-exporter"
+      "changelogUrl": "https://github.com/schaermu/changedetection.io-exporter"
     },
     {
       "groupName": "adventurelog",
-      "matchPackagePrefixes": [
-        "ghcr.io/seanmorley15/adventurelog"
-      ],
-      "customChangelogUrl": "https://github.com/seanmorley15/AdventureLog"
+      "changelogUrl": "https://github.com/seanmorley15/AdventureLog",
+      "matchPackageNames": [
+        "ghcr.io/seanmorley15/adventurelog{/,}**"
+      ]
     },
     {
       "matchPackageNames": [
         "ghcr.io/schaermu/schaermu-ch"
       ],
       "allowedVersions": "/^[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}$/",
-      "customChangelogUrl": "https://github.com/schaermu/schaermu-ch"
+      "changelogUrl": "https://github.com/schaermu/schaermu-ch"
     }
   ]
 }
