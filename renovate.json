@@ -152,5 +152,12 @@
       ],
       "customChangelogUrl": "https://github.com/seanmorley15/AdventureLog"
     },
+    {
+      "matchPackageNames": [
+        "ghcr.io/schaermu/schaermu-ch"
+      ],
+      "allowedVersions": "/^[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}$/",
+      "customChangelogUrl": "https://github.com/schaermu/schaermu-ch"
+    },
   ]
 }
