@@ -6,7 +6,7 @@ networks:
 
 services:
   schaermu:
-    image: ghcr.io/schaermu/schaermu-ch:2025.5.0
+    image: ghcr.io/schaermu/schaermu-ch:2025.5.3
     container_name: schaermu-web
     restart: unless-stopped
     networks:
