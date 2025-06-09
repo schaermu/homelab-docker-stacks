@@ -10,7 +10,7 @@ volumes:
 
 services:
   travel:
-    image: ghcr.io/seanmorley15/adventurelog-frontend:v0.9.0
+    image: ghcr.io/seanmorley15/adventurelog-frontend:v0.10.0
     container_name: adventurelog-frontend
     restart: unless-stopped
     labels:
@@ -44,7 +44,7 @@ services:
       start_period: 5m
 
   travel-backend:
-    image: ghcr.io/seanmorley15/adventurelog-backend:v0.9.0
+    image: ghcr.io/seanmorley15/adventurelog-backend:v0.10.0
     container_name: adventurelog-backend
     restart: unless-stopped
     env_file: .env
