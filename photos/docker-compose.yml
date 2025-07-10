@@ -49,7 +49,7 @@ services:
 
   redis:
     container_name: immich-redis
-    image: docker.io/valkey/valkey:8-bookworm@sha256:620286c7b6c9db39c9be8bae9cc1f187a47d4b52d1b513bdf5e0cc869e65d55d
+    image: docker.io/valkey/valkey:8-bookworm@sha256:facc1d2c3462975c34e10fccb167bfa92b0e0dbd992fc282c29a61c3243afb11
     healthcheck:
       test: redis-cli ping || exit 1
     env_file: .env
