@@ -45,7 +45,7 @@ services:
     hostname: crowdsec-bouncer-traefik
 
   pocketid:
-    image: ghcr.io/pocket-id/pocket-id:v1
+    image: ghcr.io/pocket-id/pocket-id:v1.6.4
     container_name: pocketid
     restart: unless-stopped
     environment:
@@ -76,7 +76,7 @@ services:
       start_period: 10s
 
   tinyauth:
-    image: ghcr.io/steveiliop56/tinyauth:v3
+    image: ghcr.io/steveiliop56/tinyauth:v3.6.2
     container_name: tinyauth
     restart: unless-stopped
     environment:
