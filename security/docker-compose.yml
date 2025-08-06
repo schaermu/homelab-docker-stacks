@@ -4,7 +4,7 @@ networks:
 
 volumes:
   crowdsec-data:
-
+  pocketid-data:
 
 services:
   crowdsec:
@@ -43,3 +43,60 @@ services:
     networks:
       - proxy-net
     hostname: crowdsec-bouncer-traefik
+
+  pocketid:
+    image: ghcr.io/pocket-id/pocket-id:v1
+    container_name: pocketid
+    restart: unless-stopped
+    environment:
+      APP_URL: "https://${DNS_CNAME_POCKETID}"
+      PGID: "${GID-1000}"
+      PUID: "${PID-1000}"
+      TRUST_PROXY: true
+      ENCRYPTION_KEY: ${POCKETID_ENCRYPTION_KEY}
+      MAXMIND_LICENSE_KEY: ${POCKETID_MAXMIND_LICENSE_KEY}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pocketid.entrypoints=websecure"
+      - "traefik.http.routers.pocketid.rule=Host(`${DNS_CNAME_POCKETID}`)"
+      - "traefik.http.services.pocketid-security.loadbalancer.server.port=1411"
+    ports:
+      - 1411:1411
+    volumes:
+      - pocketid-data:/app/data
+    read_only: true
+    user: "1000:1000"
+    networks:
+      - proxy-net
+    healthcheck:
+      test: [ "CMD", "/app/pocket-id", "healthcheck" ]
+      interval: 1m30s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+
+  tinyauth:
+    image: ghcr.io/steveiliop56/tinyauth:v3
+    container_name: tinyauth
+    restart: unless-stopped
+    environment:
+      - SECRET=${TINYAUTH_SECRET}
+      - APP_URL=https://${DNS_CNAME_TINYAUTH}
+      - COOKIE_SECURE=true
+      - DISABLE_CONTINUE=true
+      - OAUTH_AUTO_REDIRECT=generic
+      - GENERIC_CLIENT_ID=${TINYAUTH_POCKETID_CLIENT_ID}
+      - GENERIC_CLIENT_SECRET=${TINYAUTH_POCKETID_CLIENT_SECRET}
+      - GENERIC_AUTH_URL=https://auth.hpfr.ch/authorize
+      - GENERIC_TOKEN_URL=https://auth.hpfr.ch/api/oidc/token
+      - GENERIC_USER_URL=https://auth.hpfr.ch/api/oidc/userinfo
+      - GENERIC_SCOPES=openid email profile groups
+      - GENERIC_NAME=Pocket ID
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tinyauth.entrypoints=websecure"
+      - "traefik.http.routers.tinyauth.rule=Host(`${DNS_CNAME_TINYAUTH}`)"
+      - "traefik.http.services.tinyauth-security.loadbalancer.server.port=3000"
+      - "traefik.http.middlewares.tinyauth.forwardauth.address=http://tinyauth:3000/api/auth/traefik"
+    networks:
+      - proxy-net

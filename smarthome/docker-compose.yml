@@ -21,6 +21,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.zigbee2mqtt.entryPoints=websecure"
+      - "traefik.http.routers.zigbee2mqtt.middlewares=tinyauth"
       - "traefik.http.services.zigbee2mqtt.loadbalancer.server.port=8124"
     networks:
       - default

@@ -15,6 +15,7 @@ services:
       - "traefik.http.routers.transmission.rule=Host(`transmission.home.hpfr.ch`)"
       - "traefik.http.routers.transmission.entryPoints=websecure"
       - "traefik.http.routers.transmission.service=transmission"
+      - "traefik.http.routers.transmission.middlewares=tinyauth"
       - "traefik.http.services.transmission.loadbalancer.server.port=9091"
     cap_add:
       - NET_ADMIN
@@ -58,6 +59,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.sabnzbd.entryPoints=websecure"
+      - "traefik.http.routers.sabnzbd.middlewares=tinyauth"
     environment:
       - PUID=1000
       - PGID=1000

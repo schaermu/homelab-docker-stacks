@@ -72,6 +72,10 @@ services:
       - default
     environment:
       GF_INSTALL_PLUGINS: "grafana-polystat-panel"
+      GF_SERVER_ROOT_URL: "https://grafana.home.hpfr.ch"
+      GF_AUTH_OAUTH_ALLOW_INSECURE_EMAIL_LOOKUP: true
+      GF_AUTH_OAUTH_AUTO_LOGIN: true
+      GF_AUTH_DISABLE_LOGIN_FORM: true
     volumes:
       - grafana-data:/var/lib/grafana
     user: "1000"

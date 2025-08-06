@@ -77,6 +77,7 @@ services:
       - /mnt/media/downloads:/downloads
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.lidarr.middlewares=tinyauth"
       - "traefik.http.routers.lidarr.entryPoints=websecure"
     hostname: lidarr
     ports:
@@ -100,6 +101,7 @@ services:
       - /mnt/media/downloads:/downloads
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.sonarr.middlewares=tinyauth"
       - "traefik.http.routers.sonarr.entryPoints=websecure"
     hostname: sonarr
     ports:
@@ -115,6 +117,7 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.radarr.middlewares=tinyauth"
       - "traefik.http.routers.radarr.entryPoints=websecure"
     environment:
       - PUID=1000
@@ -146,6 +149,7 @@ services:
       - /mnt/media/video/Movies:/movies
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.bazarr.middlewares=tinyauth"
       - "traefik.http.routers.bazarr.entryPoints=websecure"
     hostname: bazarr
     ports:
@@ -167,6 +171,7 @@ services:
       - ./config/jackett:/config
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.jackett.middlewares=tinyauth"
       - "traefik.http.routers.jackett.entryPoints=websecure"
     hostname: jackett
     ports:
