@@ -12,6 +12,7 @@ services:
     container_name: crowdsec
     restart: unless-stopped
     environment:
+      PID: "${PID-1000}"
       GID: "${GID-1000}"
       COLLECTIONS: "crowdsecurity/sshd crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors crowdsecurity/iptables crowdsecurity/base-http-scenarios"
     volumes:
@@ -25,6 +26,7 @@ services:
       - /var/log/traefik:/logs/traefik:ro
     security_opt:
       - no-new-privileges=true
+    user: 1000:1000
     networks:
       - proxy-net
     ports:

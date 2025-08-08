@@ -21,6 +21,8 @@ services:
       - ADMIN_TOKEN=${VAULTWARDEN_ADMIN_TOKEN}
       - SIGNUPS_ALLOWED=false
       - INVITATIONS_ALLOWED=false
+      - ROCKET_PORT=3000
+    user: "${PID-1000}:${GID-1000}"
     networks:
       - default
       - proxy-net
@@ -30,7 +32,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.vaultwarden.entrypoints=websecure"
       - "traefik.http.routers.vaultwarden.rule=Host(`${DNS_CNAME_VAULTWARDEN}`)"
-      - "traefik.http.services.vaultwarden-tools.loadbalancer.server.port=80"
+      - "traefik.http.services.vaultwarden-tools.loadbalancer.server.port=3000"
 
   invidious:
     image: quay.io/invidious/invidious:latest
