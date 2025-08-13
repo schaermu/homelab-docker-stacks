@@ -66,7 +66,7 @@ services:
           dbname: invidious
         check_tables: true
         hmac_key: "${INVIDIOUS_HMAC_KEY}"
-        domain: ${DNS_CNAME_INVIDIOUS}
+        domain: invidious.home.hpfr.ch
         https_only: true
     healthcheck:
       test: wget -nv --tries=1 --spider http://invidious:3000/api/v1/trending || exit 1
