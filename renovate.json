@@ -61,6 +61,12 @@
     },
     {
       "matchPackageNames": [
+        "ghcr.io/cleanuparr/cleanuparr"
+      ],
+      "changelogUrl": "https://github.com/Cleanuparr/Cleanuparr"
+    },
+    {
+      "matchPackageNames": [
         "fallenbagel/jellyseerr"
       ],
       "changelogUrl": "https://github.com/Fallenbagel/jellyseerr"

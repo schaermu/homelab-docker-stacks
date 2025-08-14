@@ -177,6 +177,40 @@ services:
       - default
       - proxy-net
 
+  cleanuparr:
+    image: ghcr.io/cleanuparr/cleanuparr:latest
+    container_name: cleanuparr
+    restart: unless-stopped
+    volumes:
+      - ./config/cleanuparr:/config
+    environment:
+      - PORT=11011
+      - BASE_PATH=
+      - PUID=1000
+      - PGID=1000
+      - UMASK=022
+      - TZ=Europe/Zurich
+    labels:
+      traefik.enable: true
+      traefik.http.routers.cleanuparr.middlewares: tinyauth
+      traefik.http.routers.cleanuparr.entryPoints: websecure
+      traefik.http.services.cleanuparr.loadbalancer.server.port: 11011
+      glance.category: media
+      glance.icon: di:cleanuperr
+      glance.name: CleanupArr
+      glance.url: https://cleanuparr.home.hpfr.ch/
+      glance.description: Cleanup tool for media managers
+    hostname: cleanuparr
+    networks:
+      - default
+      - proxy-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11011/health"]
+      interval: 30s
+      timeout: 10s
+      start_period: 30s
+      retries: 3
+
   jackett:
     image: linuxserver/jackett:0.22.2238
     container_name: jackett

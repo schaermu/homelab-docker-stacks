@@ -18,6 +18,8 @@
           - VictoriaMetrics/VictoriaMetrics
           - Sonarr/Sonarr
           - Radarr/Radarr
+          - Cleanuparr/Cleanuparr
+          - deluan/navidrome
           - pi-hole/pi-hole
           - traefik/traefik
           - immich-app/immich
