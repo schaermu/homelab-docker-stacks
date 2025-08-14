@@ -154,6 +154,8 @@ services:
       - ./assets/glance:/app/assets
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /mnt/media:/mnt/media:ro
+      - /mnt/external:/mnt/external:ro
     labels:
       traefik.enable: true
       traefik.http.routers.glance.entrypoints: websecure

@@ -2,11 +2,19 @@
   columns:
     - size: small
       widgets:
-      # FIXME: this displays the stats of the glance docker container instead of the server
-      #- type: server-stats
-      #  servers:
-      #  - type: local
-      #    name: fatboy
+      - type: server-stats
+        servers:
+        - type: local
+          name: fatboy
+          hide-swap: true
+          hide-mountpoints-by-default: true
+          mountpoints:
+            "/":
+              hide: false
+            "/mnt/media":
+              hide: false
+            "/mnt/external":
+              hide: false
       - type: releases
         show-source-icon: true
         collapse-after: 10
