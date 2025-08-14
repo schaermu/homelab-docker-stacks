@@ -57,7 +57,7 @@ services:
     hostname: crowdsec-bouncer-traefik
 
   pocketid:
-    image: ghcr.io/pocket-id/pocket-id:v1.6.4
+    image: ghcr.io/pocket-id/pocket-id:v1.7.0
     container_name: pocketid
     restart: unless-stopped
     environment:
