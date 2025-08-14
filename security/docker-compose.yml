@@ -24,6 +24,13 @@ services:
       - /var/log/ufw.log:/logs/ufw.log:ro
       - /var/log/syslog:/logs/syslog:ro
       - /var/log/traefik:/logs/traefik:ro
+    labels:
+      glance.category: monitoring-security
+      glance.icon: di:crowdsec
+      glance.name: CrowdSec
+      glance.description: Open-source security automation platform
+      glance.url: https://app.crowdsec.net/security-engines
+      glance.id: crowdsec
     security_opt:
       - no-new-privileges=true
     user: 1000:1000
@@ -40,6 +47,9 @@ services:
       CROWDSEC_BOUNCER_API_KEY: ${TRAEFIK_BOUNCER_KEY}
       CROWDSEC_AGENT_HOST: crowdsec:8080
       GIN_MODE: release
+    labels:
+      glance.parent: crowdsec
+      glance.name: Traefik Bouncer
     depends_on:
       - crowdsec
     networks:
@@ -58,12 +68,14 @@ services:
       ENCRYPTION_KEY: ${POCKETID_ENCRYPTION_KEY}
       MAXMIND_LICENSE_KEY: ${POCKETID_MAXMIND_LICENSE_KEY}
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.pocketid.entrypoints=websecure"
-      - "traefik.http.routers.pocketid.rule=Host(`${DNS_CNAME_POCKETID}`)"
-      - "traefik.http.services.pocketid-security.loadbalancer.server.port=1411"
-    ports:
-      - 1411:1411
+      traefik.enable: true
+      traefik.http.routers.pocketid.entrypoints: websecure
+      traefik.http.routers.pocketid.rule: Host(`${DNS_CNAME_POCKETID}`)
+      glance.category: monitoring-security
+      glance.icon: di:pocket-id-light
+      glance.name: Pocket ID
+      glance.url: https://${DNS_CNAME_POCKETID}/
+      glance.description: Open-source identity and access management solution
     volumes:
       - pocketid-data:/app/data
     read_only: true
@@ -95,10 +107,14 @@ services:
       - GENERIC_SCOPES=openid email profile groups
       - GENERIC_NAME=Pocket ID
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.tinyauth.entrypoints=websecure"
-      - "traefik.http.routers.tinyauth.rule=Host(`${DNS_CNAME_TINYAUTH}`)"
-      - "traefik.http.services.tinyauth-security.loadbalancer.server.port=3000"
-      - "traefik.http.middlewares.tinyauth.forwardauth.address=http://tinyauth:3000/api/auth/traefik"
+      traefik.enable: true
+      traefik.http.routers.tinyauth.entrypoints: websecure
+      traefik.http.routers.tinyauth.rule: Host(`${DNS_CNAME_TINYAUTH}`)
+      traefik.http.middlewares.tinyauth.forwardauth.address: http://tinyauth:3000/api/auth/traefik
+      glance.category: monitoring-security
+      glance.icon: di:authentik
+      glance.name: TinyAuth
+      glance.url: https://${DNS_CNAME_TINYAUTH}/
+      glance.description: Lightweight authentication service for Traefik
     networks:
       - proxy-net

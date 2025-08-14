@@ -14,10 +14,16 @@ services:
     container_name: adventurelog-frontend
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.adventurelog-web.entryPoints=websecure"
-      - "traefik.http.services.adventurelog-web.loadbalancer.server.port=3000"
-      - "traefik.http.routers.adventurelog-web.rule=Host(`${DNS_CNAME}`) && !PathPrefix(`/media`)"
+      traefik.enable: true
+      traefik.http.routers.adventurelog-web.entryPoints: websecure
+      traefik.http.services.adventurelog-web.loadbalancer.server.port: 3000
+      traefik.http.routers.adventurelog-web.rule: Host(`${DNS_CNAME}`) && !PathPrefix(`/media`)
+      glance.category: tools
+      glance.icon: di:adventure-log
+      glance.name: AdventureLog
+      glance.url: https://${DNS_CNAME}/
+      glance.description: Personal travel logbook
+      glance.id: adventurelog
     environment:
       - PUBLIC_SERVER_URL=http://server:8000
       - BODY_SIZE_LIMIT=Infinity
@@ -37,6 +43,9 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - adventurelog-postgres-data:/var/lib/postgresql/data/
+    labels:
+      glance.parent: adventurelog
+      glance.name: Database
     healthcheck:
       test: pg_isready --dbname='${DB_DATABASE_NAME}' --username='${DB_USERNAME}' || exit 1; Chksum="$$(psql --dbname='${DB_DATABASE_NAME}' --username='${DB_USERNAME}' --tuples-only --no-align --command='SELECT COALESCE(SUM(checksum_failures), 0) FROM pg_stat_database')"; echo "checksum failure count is $$Chksum"; [ "$$Chksum" = '0' ] || exit 1
       interval: 5m
@@ -58,23 +67,28 @@ services:
       - DEBUG=False
       - FRONTEND_URL=https://${DNS_CNAME}
       - DISABLE_REGISTRATION=True
-    ports:
-      - "8000:8000"
-    depends_on:
-      - travel-db
     volumes:
       - adventurelog-media:/code/media/
+    labels:
+      glance.parent: adventurelog
+      glance.name: API
+    ports:
+      - 8000:8000
+    depends_on:
+      - travel-db
 
   nginx:
     image: nginx:latest
     container_name: adventurelog-nginx
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.adventurelog-nginx.entryPoints=websecure"
-      - "traefik.http.routers.adventurelog-nginx.rule=Host(`${DNS_CNAME}`) && PathPrefix(`/media`)"
-      - "traefik.http.middlewares.nginx-stripprefix.stripprefix.prefixes=/media"
-      - "traefik.http.routers.adventurelog-nginx.middlewares=nginx-stripprefix"
+      traefik.enable: true
+      traefik.http.routers.adventurelog-nginx.entryPoints: websecure
+      traefik.http.routers.adventurelog-nginx.rule: Host(`${DNS_CNAME}`) && PathPrefix(`/media`)
+      traefik.http.middlewares.nginx-stripprefix.stripprefix.prefixes: /media
+      traefik.http.routers.adventurelog-nginx.middlewares: nginx-stripprefix
+      glance.parent: adventurelog
+      glance.name: Reverse Proxy
     volumes:
       - adventurelog-media:/usr/share/nginx/html
     networks:

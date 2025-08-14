@@ -20,6 +20,14 @@ services:
     image: victoriametrics/vmagent:v1.123.0
     container_name: vmagent
     restart: unless-stopped
+    volumes:
+      - vmagent-data:/vmagentdata
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+    labels:
+      glance.category: monitoring-security
+      glance.icon: di:prometheus
+      glance.name: VictoriaMetrics Agent
+      glance.description: Lightweight Prometheus agent for scraping and forwarding metrics
     depends_on:
       - victoriametrics
     ports:
@@ -29,9 +37,6 @@ services:
       - proxy-net
       - tools-net
       - smarthome-net
-    volumes:
-      - vmagent-data:/vmagentdata
-      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
     command:
       - "--promscrape.config=/etc/prometheus/prometheus.yml"
       - "--remoteWrite.url=http://victoriametrics:8428/api/v1/write"
@@ -40,6 +45,13 @@ services:
     container_name: victoriametrics
     image: victoriametrics/victoria-metrics:v1.123.0
     restart: unless-stopped
+    volumes:
+      - victoriametrics-data:/storage
+    labels:
+      glance.category: monitoring-security
+      glance.icon: di:prometheus
+      glance.name: VictoriaMetrics
+      glance.description: High-performance time series database for metrics
     ports:
       - 8428:8428
       - 8089:8089
@@ -47,8 +59,6 @@ services:
       - 2003:2003
       - 2003:2003/udp
       - 4242:4242
-    volumes:
-      - victoriametrics-data:/storage
     command:
       - "--storageDataPath=/storage"
       - "--graphiteListenAddr=:2003"
@@ -62,14 +72,6 @@ services:
     image: grafana/grafana-oss:12.1.0
     container_name: grafana
     restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.grafana.entrypoints=websecure"
-    ports:
-      - 3000:3000
-    networks:
-      - proxy-net
-      - default
     environment:
       GF_INSTALL_PLUGINS: "grafana-polystat-panel"
       GF_SERVER_ROOT_URL: "https://grafana.home.hpfr.ch"
@@ -78,4 +80,16 @@ services:
       GF_AUTH_DISABLE_LOGIN_FORM: true
     volumes:
       - grafana-data:/var/lib/grafana
-    user: "1000"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.grafana.entrypoints: websecure
+      glance.category: monitoring-security
+      glance.icon: di:grafana
+      glance.name: Grafana
+      glance.url: https://grafana.home.hpfr.ch/
+      glance.description: Open-source platform for monitoring and observability
+    hostname: grafana
+    networks:
+      - proxy-net
+      - default
+    user: 1000:1000

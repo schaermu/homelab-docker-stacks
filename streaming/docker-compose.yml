@@ -10,7 +10,6 @@ volumes:
   jellyfin-data:
   navidrome-data:
 
-
 services:
   jellyfin:
     image: linuxserver/jellyfin:10.10.7
@@ -30,9 +29,14 @@ services:
       - /mnt/media/video/Serien:/data/tvshows
       - /mnt/media/video/Movies:/data/movies
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.jellyfin.entryPoints=websecure"
-      - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+      traefik.enable: true
+      traefik.http.routers.jellyfin.entryPoints: websecure
+      traefik.http.services.jellyfin.loadbalancer.server.port: 8096
+      glance.category: media
+      glance.icon: di:jellyfin
+      glance.name: Jellyfin
+      glance.url: https://jellyfin.home.hpfr.ch/
+      glance.description: Media server for movies & TV
     hostname: jellyfin
     ports:
       - 8096:8096
@@ -47,10 +51,13 @@ services:
     container_name: navidrome
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.navidrome-http.entrypoints=websecure"
-    ports:
-      - "4533:4533"
+      traefik.enable: true
+      traefik.http.routers.navidrome-http.entrypoints: websecure
+      glance.category: media
+      glance.icon: di:navidrome
+      glance.name: Navidrome
+      glance.url: https://navidrome.home.hpfr.ch/
+      glance.description: Music server for your collection
     hostname: navidrome
     environment:
       - ND_SCANSCHEDULE=1h
@@ -76,12 +83,15 @@ services:
       - /mnt/media/music/:/music
       - /mnt/media/downloads:/downloads
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.lidarr.middlewares=tinyauth"
-      - "traefik.http.routers.lidarr.entryPoints=websecure"
+      traefik.enable: true
+      traefik.http.routers.lidarr.middlewares: tinyauth
+      traefik.http.routers.lidarr.entryPoints: websecure
+      glance.category: media
+      glance.icon: di:lidarr
+      glance.name: Lidarr
+      glance.url: https://lidarr.home.hpfr.ch/
+      glance.description: Music collection manager
     hostname: lidarr
-    ports:
-      - 8686:8686
     networks:
       - download-net
       - proxy-net
@@ -91,6 +101,15 @@ services:
     image: linuxserver/sonarr:4.0.15
     container_name: sonarr
     restart: unless-stopped
+    labels:
+      traefik.enable: true
+      traefik.http.routers.sonarr.middlewares: tinyauth
+      traefik.http.routers.sonarr.entryPoints: websecure
+      glance.category: media
+      glance.icon: di:sonarr
+      glance.name: Sonarr
+      glance.url: https://sonarr.home.hpfr.ch/
+      glance.description: TV series collection manager
     environment:
       - PUID=1000
       - PGID=1000
@@ -99,13 +118,7 @@ services:
       - ./config/sonarr:/config
       - /mnt/media/video/Serien:/tvshows
       - /mnt/media/downloads:/downloads
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.sonarr.middlewares=tinyauth"
-      - "traefik.http.routers.sonarr.entryPoints=websecure"
     hostname: sonarr
-    ports:
-      - 8989:8989
     networks:
       - download-net
       - proxy-net
@@ -116,9 +129,14 @@ services:
     container_name: radarr
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.radarr.middlewares=tinyauth"
-      - "traefik.http.routers.radarr.entryPoints=websecure"
+      traefik.enable: true
+      traefik.http.routers.radarr.middlewares: tinyauth
+      traefik.http.routers.radarr.entryPoints: websecure
+      glance.category: media
+      glance.icon: di:radarr
+      glance.name: Radarr
+      glance.url: https://radarr.home.hpfr.ch/
+      glance.description: Movie collection manager
     environment:
       - PUID=1000
       - PGID=1000
@@ -128,8 +146,6 @@ services:
       - /mnt/media/video/Movies:/movies
       - /mnt/media/downloads:/downloads
     hostname: radarr
-    ports:
-      - 7878:7878
     networks:
       - download-net
       - proxy-net
@@ -148,12 +164,15 @@ services:
       - /mnt/media/video/Serien:/tvshows
       - /mnt/media/video/Movies:/movies
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.bazarr.middlewares=tinyauth"
-      - "traefik.http.routers.bazarr.entryPoints=websecure"
+      traefik.enable: true
+      traefik.http.routers.bazarr.middlewares: tinyauth
+      traefik.http.routers.bazarr.entryPoints: websecure
+      glance.category: media
+      glance.name: Bazarr
+      glance.icon: auto-invert di:bazarr
+      glance.url: https://bazarr.home.hpfr.ch/
+      glance.description: Subtitle management tool
     hostname: bazarr
-    ports:
-      - 6767:6767
     networks:
       - default
       - proxy-net
@@ -170,12 +189,15 @@ services:
     volumes:
       - ./config/jackett:/config
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.jackett.middlewares=tinyauth"
-      - "traefik.http.routers.jackett.entryPoints=websecure"
+      traefik.enable: true
+      traefik.http.routers.jackett.middlewares: tinyauth
+      traefik.http.routers.jackett.entryPoints: websecure
+      glance.category: media
+      glance.icon: di:jackett-light
+      glance.name: Jackett
+      glance.url: https://jackett.home.hpfr.ch/
+      glance.description: Proxy for torrent indexers
     hostname: jackett
-    ports:
-      - 9117:9117
     networks:
       - default
       - proxy-net
@@ -184,20 +206,23 @@ services:
     image: fallenbagel/jellyseerr:2.7.2
     container_name: jellyseerr
     restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.jellyseerr-http.entrypoints=websecure"
     environment:
       - LOG_LEVEL=debug
       - TZ=Europe/Zurich
+    volumes:
+      - ./config/jellyseerr:/app/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.jellyseerr-http.entrypoints: websecure
+      glance.category: media
+      glance.icon: di:jellyseerr
+      glance.name: Jellyseerr
+      glance.url: https://jellyseerr.home.hpfr.ch/
+      glance.description: Request tool for Jellyfin
     hostname: jellyseerr
-    ports:
-      - 5055:5055
     networks:
       - default
       - proxy-net
-    volumes:
-      - ./config/jellyseerr:/app/config
     depends_on:
       - radarr
       - sonarr

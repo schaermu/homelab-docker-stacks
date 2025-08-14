@@ -29,10 +29,15 @@ services:
     volumes:
       - vaultwarden-data:/data/
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.vaultwarden.entrypoints=websecure"
-      - "traefik.http.routers.vaultwarden.rule=Host(`${DNS_CNAME_VAULTWARDEN}`)"
-      - "traefik.http.services.vaultwarden-tools.loadbalancer.server.port=3000"
+      traefik.enable: true
+      traefik.http.routers.vaultwarden.entrypoints: websecure
+      traefik.http.routers.vaultwarden.rule: Host(`${DNS_CNAME_VAULTWARDEN}`)
+      traefik.http.services.vaultwarden-tools.loadbalancer.server.port: 3000
+      glance.category: tools
+      glance.icon: auto-invert di:vaultwarden
+      glance.name: Vaultwarden
+      glance.url: https://${DNS_CNAME_VAULTWARDEN}/
+      glance.description: Self-hosted password manager
 
   invidious:
     image: quay.io/invidious/invidious:latest
@@ -42,9 +47,15 @@ services:
       - default
       - proxy-net
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.invidious.entrypoints=websecure"
-      - "traefik.http.services.invidious-tools.loadbalancer.server.port=3000"
+      traefik.enable: true
+      traefik.http.routers.invidious.entrypoints: websecure
+      traefik.http.services.invidious-tools.loadbalancer.server.port: 3000
+      glance.category: media
+      glance.icon: di:invidious
+      glance.name: Invidious
+      glance.url: https://invidious.home.hpfr.ch/
+      glance.description: Alternative YouTube front-end
+      glance.id: invidious
     environment:
       INVIDIOUS_CONFIG: |
         db:
@@ -81,6 +92,9 @@ services:
       POSTGRES_DB: invidious
       POSTGRES_USER: ${INVIDIOUS_POSTGRES_USER}
       POSTGRES_PASSWORD: ${INVIDIOUS_POSTGRES_PASSWORD}
+    labels:
+      glance.parent: invidious
+      glance.name: Database
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
 
@@ -88,9 +102,15 @@ services:
     image: vikunja/vikunja:0.24.6
     container_name: vikunja
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.vikunja.entryPoints=websecure"
-      - "traefik.http.services.vikunja.loadbalancer.server.port=3456"
+      traefik.enable: true
+      traefik.http.routers.vikunja.entryPoints: websecure
+      traefik.http.services.vikunja.loadbalancer.server.port: 3456
+      glance.category: tools
+      glance.icon: di:vikunja
+      glance.name: Vikunja
+      glance.url: https://vikunja.home.hpfr.ch/
+      glance.description: Open-source task management software
+      glance.id: vikunja
     environment:
       VIKUNJA_SERVICE_PUBLICURL: https://vikunja.home.hpfr.ch
       VIKUNJA_DATABASE_HOST: vikunja-db
@@ -117,7 +137,29 @@ services:
       POSTGRES_USER: vikunja
     volumes:
       - vikunja-data:/var/lib/postgresql/data
+    labels:
+      glance.parent: vikunja
+      glance.name: Database
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
       interval: 2s
+
+  glance:
+    container_name: glance
+    image: glanceapp/glance
+    restart: unless-stopped
+    volumes:
+      - ./config/glance:/app/config
+      - ./assets/glance:/app/assets
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      traefik.enable: true
+      traefik.http.routers.glance.entrypoints: websecure
+      traefik.http.services.glance-tools.loadbalancer.server.port: 8080
+    environment:
+      - GITHUB_TOKEN=${GLANCE_GITHUB_TOKEN}
+    networks:
+      - default
+      - proxy-net

@@ -19,14 +19,17 @@ services:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.immich-server.entryPoints=websecure"
-      - "traefik.http.services.immich-server.loadbalancer.server.port=2283"
+      traefik.enable: true
+      traefik.http.routers.immich-server.entryPoints: websecure
+      glance.category: media
+      glance.icon: di:immich
+      glance.name: Immich
+      glance.url: https://photos.home.hpfr.ch/
+      glance.description: Self-hosted photo and video backup solution
+      glance.id: immich
     networks:
       - default
       - proxy-net
-    ports:
-      - 2283:2283
     env_file: .env
     depends_on:
       - redis
@@ -43,6 +46,9 @@ services:
     volumes:
       - immich-model-cache:/cache
     env_file: .env
+    labels:
+      glance.parent: immich
+      glance.name: Machine Learning Agent
     restart: unless-stopped
     healthcheck:
       disable: false
@@ -53,6 +59,9 @@ services:
     healthcheck:
       test: redis-cli ping || exit 1
     env_file: .env
+    labels:
+      glance.parent: immich
+      glance.name: Redis
     restart: always
 
   database:
@@ -65,6 +74,9 @@ services:
       POSTGRES_INITDB_ARGS: "--data-checksums"
     volumes:
       - immich-postgres-data:/var/lib/postgresql/data
+    labels:
+      glance.parent: immich
+      glance.name: Database
     healthcheck:
       test: pg_isready --dbname='${DB_DATABASE_NAME}' --username='${DB_USERNAME}' || exit 1; Chksum="$$(psql --dbname='${DB_DATABASE_NAME}' --username='${DB_USERNAME}' --tuples-only --no-align --command='SELECT COALESCE(SUM(checksum_failures), 0) FROM pg_stat_database')"; echo "checksum failure count is $$Chksum"; [ "$$Chksum" = '0' ] || exit 1
       interval: 5m

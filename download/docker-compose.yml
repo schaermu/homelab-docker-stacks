@@ -10,19 +10,6 @@ services:
     image: linuxserver/wireguard:1.0.20250521
     container_name: wireguard
     restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.transmission.rule=Host(`transmission.home.hpfr.ch`)"
-      - "traefik.http.routers.transmission.entryPoints=websecure"
-      - "traefik.http.routers.transmission.service=transmission"
-      - "traefik.http.routers.transmission.middlewares=tinyauth"
-      - "traefik.http.services.transmission.loadbalancer.server.port=9091"
-    cap_add:
-      - NET_ADMIN
-      - SYS_MODULE
-    sysctls:
-      - net.ipv6.conf.all.disable_ipv6=0
-      - net.ipv4.conf.all.src_valid_mark=1
     environment:
       - PUID=1000
       - PGID=1000
@@ -30,6 +17,23 @@ services:
     volumes:
       - ./config/wireguard-client:/config
       - /lib/modules:/lib/modules
+    labels:
+      traefik.enable: true
+      traefik.http.routers.transmission.rule: Host(`transmission.home.hpfr.ch`)
+      traefik.http.routers.transmission.entryPoints: websecure
+      traefik.http.routers.transmission.service: transmission
+      traefik.http.routers.transmission.middlewares: tinyauth
+      traefik.http.services.transmission.loadbalancer.server.port: 9091
+      glance.category: download-network
+      glance.icon: di:wireguard
+      glance.name: WireGuard
+      glance.description: VPN client for secure & private connections
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0
+      - net.ipv4.conf.all.src_valid_mark=1
     ports:
       - 9091:9091
       - 51413:51413
@@ -51,15 +55,26 @@ services:
     volumes:
       - ./config/transmission:/config
       - /mnt/media/downloads:/downloads
+    labels:
+      glance.category: download-network
+      glance.icon: di:transmission
+      glance.name: Transmission
+      glance.url: https://transmission.home.hpfr.ch/
+      glance.description: Torrent client with web interface
 
   sabnzbd:
     image: linuxserver/sabnzbd:4.5.2
     container_name: sabnzbd
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.sabnzbd.entryPoints=websecure"
-      - "traefik.http.routers.sabnzbd.middlewares=tinyauth"
+      traefik.enable: true
+      traefik.http.routers.sabnzbd.entryPoints: websecure
+      traefik.http.routers.sabnzbd.middlewares: tinyauth
+      glance.category: download-network
+      glance.icon: di:sabnzbd
+      glance.name: SABnzbd
+      glance.url: https://sabnzbd.home.hpfr.ch/
+      glance.description: Usenet download client with web interface
     environment:
       - PUID=1000
       - PGID=1000
@@ -68,8 +83,6 @@ services:
       - ./config/sabnzbd:/config
       - /mnt/media/downloads:/downloads
       - /mnt/media/downloads/incomplete:/incomplete-downloads
-    ports:
-      - 8080:8080
     networks:
       - default
       - proxy-net

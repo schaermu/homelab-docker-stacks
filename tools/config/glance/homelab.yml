@@ -1,0 +1,51 @@
+- name: Homelab
+  columns:
+    - size: small
+      widgets:
+      # FIXME: this displays the stats of the glance docker container instead of the server
+      #- type: server-stats
+      #  servers:
+      #  - type: local
+      #    name: fatboy
+      - type: releases
+        show-source-icon: true
+        collapse-after: 10
+        token: ${GITHUB_TOKEN}
+        repositories:
+          - jellyfin/jellyfin
+          - grafana/grafana
+          - pi-hole/pi-hole
+          - traefik/traefik
+          - immich-app/immich
+          - pocket-id/pocket-id
+          - dani-garcia/vaultwarden
+          - glanceapp/glance
+    - size: full
+      widgets:
+        - type: split-column
+          widgets:
+          - type: reddit
+            subreddit: selfhosted
+            collapse-after: 5
+          - type: reddit
+            subreddit: homelab
+            collapse-after: 5
+
+        - type: docker-containers
+          title: Media
+          category: media
+        - type: split-column
+          max-columns: 3
+          widgets:
+          - type: docker-containers
+            title: Download & Network
+            category: download-network
+          - type: docker-containers
+            title: Home Automation
+            category: home-automation
+          - type: docker-containers
+            title: Tools
+            category: tools
+        - type: docker-containers
+          title: Monitoring & Security
+          category: monitoring-security

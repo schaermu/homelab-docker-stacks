@@ -1,0 +1,66 @@
+- name: Home
+  head-widgets:
+    - type: search
+      autofocus: true
+  columns:
+    - size: small
+      widgets:
+        - type: clock
+          hour-format: 24h
+        - type: weather
+          location: Bern, Switzerland
+          hour-format: 24h
+          units: metric
+    - size: full
+      widgets:
+        - type: monitor
+          cache: 1m
+          title: Services
+          sites:
+            - title: Jellyfin
+              url: https://jellyfin.home.hpfr.ch/
+              check-url: http://jellyfin:8096
+              icon: di:jellyfin
+            - title: Grafana
+              url: https://grafana.home.hpfr.ch/
+              check-url: http://grafana:3000
+              icon: di:grafana
+            - title: Immich
+              url: https://immich-server.home.hpfr.ch/
+              check-url: http://immich-server:2283
+              icon: di:immich
+            - title: PiHole
+              url: https://pihole.home.hpfr.ch/admin
+              check-url: http://pihole:80/admin
+              icon: di:pi-hole
+            - title: Pocket ID
+              url: https://auth.hpfr.ch/
+              check-url: http://pocketid:1411
+              icon: auto-invert di:pocket-id
+            - title: Vaultwarden
+              url: https://vault.hpfr.ch/
+              icon: auto-invert di:vaultwarden
+        - type: split-column
+          widgets:
+            - type: hacker-news
+              collapse-after: 5
+              comments-url-template: https://www.hckrnws.com/stories/{POST-ID}
+            - type: lobsters
+              collapse-after: 5
+    - size: small
+      widgets:
+        - type: bookmarks
+          groups:
+            - title: General
+              links:
+                - title: Proton Mail
+                  url: https://mail.proton.me/
+                - title: Github
+                  url: https://github.com/
+            - title: Shopping
+              links:
+                - title: Daydeal
+                  url: https://www.daydeal.ch
+                - title: Digitec
+                  url: https://www.digitec.ch
+        - type: calendar

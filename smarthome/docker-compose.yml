@@ -19,10 +19,15 @@ services:
       - ./config/zigbee2mqtt/configuration.yaml:/app/data/configuration.yaml
       - /run/udev:/run/udev:ro
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.zigbee2mqtt.entryPoints=websecure"
-      - "traefik.http.routers.zigbee2mqtt.middlewares=tinyauth"
-      - "traefik.http.services.zigbee2mqtt.loadbalancer.server.port=8124"
+      traefik.enable: true
+      traefik.http.routers.zigbee2mqtt.entryPoints: websecure
+      traefik.http.routers.zigbee2mqtt.middlewares: tinyauth
+      traefik.http.services.zigbee2mqtt.loadbalancer.server.port: 8124
+      glance.category: home-automation
+      glance.icon: di:zigbee2mqtt
+      glance.name: Zigbee2MQTT
+      glance.url: https://zigbee2mqtt.home.hpfr.ch/
+      glance.description: Zigbee to MQTT bridge
     networks:
       - default
       - proxy-net
@@ -38,25 +43,35 @@ services:
     image: eclipse-mosquitto:2.0.22
     container_name: mqtt
     restart: unless-stopped
+    volumes:
+      - ./config/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - mosquitto-data:/mosquitto/data
+      - /var/tmp/docker-storage/mosquitto-logs:/mosquitto/log
+    labels:
+      glance.category: home-automation
+      glance.icon: di:mosquitto
+      glance.name: Mosquitto
+      glance.description: MQTT broker for home automation
+      glance.id: mqtt
     ports:
       - 1883:1883
       - 9001:9001
     networks:
       - default
-    volumes:
-      - ./config/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
-      - mosquitto-data:/mosquitto/data
-      - /var/tmp/docker-storage/mosquitto-logs:/mosquitto/log
     user: 1000:1000
 
   mqtt-exporter:
     image: kpetrem/mqtt-exporter:1.7.2
     container_name: mqtt-exporter
     restart: unless-stopped
-    ports:
-      - 9000:9000
     environment:
       - MQTT_ADDRESS=mqtt
       - PROMETHEUS_PREFIX=sensor_
       - TOPIC_LABEL=sensor
+    labels:
+      glance.parent: mqtt
+      glance.name: MQTT Exporter
+      glance.description: Exports MQTT topics to Prometheus
+    ports:
+      - 9000:9000
     user: 1000:1000

@@ -13,16 +13,25 @@ services:
     image: traefik:v3.5.0
     container_name: traefik
     restart: unless-stopped
+    environment:
+      - CF_DNS_API_TOKEN_FILE=/run/secrets/cf_credentials_api_key
+      - CF_EMAIL_FILE=/run/secrets/cf_credentials_email
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /var/log/traefik/:/var/log/traefik/
       - ./config/traefik:/etc/traefik
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.traefik.entryPoints=websecure"
-      - "traefik.http.routers.traefik.middlewares=default@file"
-      - "traefik.http.routers.traefik.service=api@internal"
+      traefik.enable: true
+      traefik.http.routers.traefik.entryPoints: websecure
+      traefik.http.routers.traefik.middlewares: default@file
+      traefik.http.routers.traefik.service: api@internal
+      glance.category: download-network
+      glance.icon: di:traefik
+      glance.name: Traefik
+      glance.url: https://traefik.home.hpfr.ch/
+      glance.description: Reverse proxy and load balancer
+    hostname: traefik
     security_opt:
       - no-new-privileges:true
     networks:
@@ -30,10 +39,6 @@ services:
     secrets:
       - cf_credentials_api_key
       - cf_credentials_email
-    environment:
-      - CF_DNS_API_TOKEN_FILE=/run/secrets/cf_credentials_api_key
-      - CF_EMAIL_FILE=/run/secrets/cf_credentials_email
-    hostname: traefik
     ports:
       - 80:80
       - 443:443
@@ -57,10 +62,15 @@ services:
       - ./config/etc-pihole/:/etc/pihole/
       - ./config/etc-dnsmasq.d/:/etc/dnsmasq.d/
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.pihole.entryPoints=websecure"
-      - "traefik.http.routers.pihole.middlewares=tinyauth"
-      - "traefik.http.services.pihole.loadbalancer.server.port=80"
+      traefik.enable: true
+      traefik.http.routers.pihole.entryPoints: websecure
+      traefik.http.routers.pihole.middlewares: tinyauth
+      traefik.http.services.pihole.loadbalancer.server.port: 80
+      glance.category: download-network
+      glance.icon: di:pi-hole
+      glance.name: Pi-hole
+      glance.url: https://pihole.home.hpfr.ch/
+      glance.description: Network-wide ad blocker & DHCP server
     cap_add:
       - NET_ADMIN
       - SYS_TIME
