@@ -10,14 +10,22 @@
       - type: releases
         show-source-icon: true
         collapse-after: 10
+        limit: 20
         token: ${GITHUB_TOKEN}
         repositories:
           - jellyfin/jellyfin
           - grafana/grafana
+          - VictoriaMetrics/VictoriaMetrics
+          - Sonarr/Sonarr
+          - Radarr/Radarr
           - pi-hole/pi-hole
           - traefik/traefik
           - immich-app/immich
           - pocket-id/pocket-id
+          - steveiliop56/tinyauth
+          - seanmorley15/AdventureLog
+          - linuxserver/docker-transmission
+          - crowdsecurity/crowdsec
           - dani-garcia/vaultwarden
           - glanceapp/glance
     - size: full
