@@ -69,7 +69,7 @@ services:
       - default
 
   grafana:
-    image: grafana/grafana-oss:12.1.0
+    image: grafana/grafana-oss:12.1.1
     container_name: grafana
     restart: unless-stopped
     environment:
