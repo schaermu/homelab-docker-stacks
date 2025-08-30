@@ -11,7 +11,7 @@ volumes:
 services:
   immich-server:
     container_name: immich-server
-    image: ghcr.io/immich-app/immich-server:v1.139.4
+    image: ghcr.io/immich-app/immich-server:v1.140.0
     devices:
       - /dev/dri:/dev/dri
     volumes:
@@ -40,7 +40,7 @@ services:
 
   immich-machine-learning:
     container_name: immich-machine-learning
-    image: ghcr.io/immich-app/immich-machine-learning:v1.139.4
+    image: ghcr.io/immich-app/immich-machine-learning:v1.140.0
     ports:
       - 3003:3003
     volumes:
