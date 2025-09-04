@@ -189,7 +189,7 @@ services:
       BASE_PATH: 
       PUID: 1000
       PGID: 1000
-      UMASK: 022
+      UMASK: "022"
       TZ: Europe/Zurich
     labels:
       traefik.enable: true
@@ -235,9 +235,10 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.tdarr.middlewares: tinyauth
+      traefik.http.routers.tdarr.entryPoints: websecure
       traefik.http.services.tdarr.loadbalancer.server.port: 8265
       glance.category: media
-      glance.icon: di:tdarr-light
+      glance.icon: di:tdarr
       glance.name: Tdarr
       glance.url: https://tdarr.home.hpfr.ch/
       glance.description: Media transcoding tool
