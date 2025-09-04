@@ -14,8 +14,8 @@ services:
     container_name: traefik
     restart: unless-stopped
     environment:
-      - CF_DNS_API_TOKEN_FILE=/run/secrets/cf_credentials_api_key
-      - CF_EMAIL_FILE=/run/secrets/cf_credentials_email
+      CF_DNS_API_TOKEN_FILE: /run/secrets/cf_credentials_api_key
+      CF_EMAIL_FILE: /run/secrets/cf_credentials_email
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -52,12 +52,12 @@ services:
       - "53:53/udp"
       - "123:123/udp"
     environment:
-      - TZ=Europe/Zurich
-      - FTLCONF_dns_reply_host_IPv4=192.168.1.11
-      - FTLCONF_dns_upstreams=172.28.0.1#5335
-      - FTLCONF_webserver_api_password=${PIHOLE_PASSWORD}
-      - FTLCONF_misc_etc_dnsmasq_d=true
-      - VIRTUAL_HOST=${PIHOLE_VIRTUAL_HOST}
+      TZ: Europe/Zurich
+      FTLCONF_dns_reply_host_IPv4: 192.168.1.11
+      FTLCONF_dns_upstreams: 172.28.0.1#5335
+      FTLCONF_webserver_api_password: ${PIHOLE_PASSWORD}
+      FTLCONF_misc_etc_dnsmasq_d: true
+      VIRTUAL_HOST: ${PIHOLE_VIRTUAL_HOST}
     volumes:
       - ./config/etc-pihole/:/etc/pihole/
       - ./config/etc-dnsmasq.d/:/etc/dnsmasq.d/

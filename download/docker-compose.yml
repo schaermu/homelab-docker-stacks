@@ -11,9 +11,9 @@ services:
     container_name: wireguard
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Zurich
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Zurich
     volumes:
       - ./config/wireguard-client:/config
       - /lib/modules:/lib/modules
@@ -48,10 +48,10 @@ services:
     restart: unless-stopped
     network_mode: service:wireguard
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Zurich
-      - TRANSMISSION_WEB_HOME=/config/flood-for-transmission/
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Zurich
+      TRANSMISSION_WEB_HOME: /config/flood-for-transmission/
     volumes:
       - ./config/transmission:/config
       - /mnt/media/downloads:/downloads
@@ -76,9 +76,9 @@ services:
       glance.url: https://sabnzbd.home.hpfr.ch/
       glance.description: Usenet download client with web interface
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Zurich
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Zurich
     volumes:
       - ./config/sabnzbd:/config
       - /mnt/media/downloads:/downloads

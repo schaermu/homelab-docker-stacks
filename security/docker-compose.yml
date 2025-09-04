@@ -94,18 +94,18 @@ services:
     container_name: tinyauth
     restart: unless-stopped
     environment:
-      - SECRET=${TINYAUTH_SECRET}
-      - APP_URL=https://${DNS_CNAME_TINYAUTH}
-      - COOKIE_SECURE=true
-      - DISABLE_CONTINUE=true
-      - OAUTH_AUTO_REDIRECT=generic
-      - GENERIC_CLIENT_ID=${TINYAUTH_POCKETID_CLIENT_ID}
-      - GENERIC_CLIENT_SECRET=${TINYAUTH_POCKETID_CLIENT_SECRET}
-      - GENERIC_AUTH_URL=https://auth.hpfr.ch/authorize
-      - GENERIC_TOKEN_URL=https://auth.hpfr.ch/api/oidc/token
-      - GENERIC_USER_URL=https://auth.hpfr.ch/api/oidc/userinfo
-      - GENERIC_SCOPES=openid email profile groups
-      - GENERIC_NAME=Pocket ID
+      SECRET: ${TINYAUTH_SECRET}
+      APP_URL: https://${DNS_CNAME_TINYAUTH}
+      COOKIE_SECURE: true
+      DISABLE_CONTINUE: true
+      OAUTH_AUTO_REDIRECT: generic
+      GENERIC_CLIENT_ID: ${TINYAUTH_POCKETID_CLIENT_ID}
+      GENERIC_CLIENT_SECRET: ${TINYAUTH_POCKETID_CLIENT_SECRET}
+      GENERIC_AUTH_URL: https://auth.hpfr.ch/authorize
+      GENERIC_TOKEN_URL: https://auth.hpfr.ch/api/oidc/token
+      GENERIC_USER_URL: https://auth.hpfr.ch/api/oidc/userinfo
+      GENERIC_SCOPES: openid email profile groups
+      GENERIC_NAME: Pocket ID
     labels:
       traefik.enable: true
       traefik.http.routers.tinyauth.entrypoints: websecure

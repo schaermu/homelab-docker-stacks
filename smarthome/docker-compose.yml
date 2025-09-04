@@ -32,7 +32,7 @@ services:
       - default
       - proxy-net
     environment:
-      - TZ=Europe/Zurich
+      TZ: Europe/Zurich
     devices:
       - /dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2450167-if00:/dev/ttyACM0
     group_add:
@@ -65,9 +65,9 @@ services:
     container_name: mqtt-exporter
     restart: unless-stopped
     environment:
-      - MQTT_ADDRESS=mqtt
-      - PROMETHEUS_PREFIX=sensor_
-      - TOPIC_LABEL=sensor
+      MQTT_ADDRESS: mqtt
+      PROMETHEUS_PREFIX: sensor_
+      TOPIC_LABEL: sensor
     labels:
       glance.parent: mqtt
       glance.name: MQTT Exporter

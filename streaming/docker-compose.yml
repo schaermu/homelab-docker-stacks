@@ -17,12 +17,12 @@ services:
     container_name: jellyfin
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Zurich
-      - JELLYFIN_PublishedServerUrl=192.168.1.11
-      - JELLYFIN_CACHE_DIR=/cache
-      - JELLYFIN_LOG_DIR=/log
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Zurich
+      JELLYFIN_PublishedServerUrl: 192.168.1.11
+      JELLYFIN_CACHE_DIR: /cache
+      JELLYFIN_LOG_DIR: /log
     volumes:
       - jellyfin-data:/config
       - /var/tmp/docker-storage/jellyfin-cache:/cache
@@ -61,9 +61,9 @@ services:
       glance.description: Music server for your collection
     hostname: navidrome
     environment:
-      - ND_SCANSCHEDULE=1h
-      - ND_LOGLEVEL=info
-      - ND_BASEURL=
+      ND_SCANSCHEDULE: 1h
+      ND_LOGLEVEL: info
+      ND_BASEURL: 
     volumes:
       - navidrome-data:/data
       - /mnt/media/music:/music:ro
@@ -76,9 +76,9 @@ services:
     container_name: lidarr
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Zurich
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Zurich
     volumes:
       - ./config/lidarr:/config
       - /mnt/media/music/:/music
@@ -112,9 +112,9 @@ services:
       glance.url: https://sonarr.home.hpfr.ch/
       glance.description: TV series collection manager
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Zurich
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Zurich
     volumes:
       - ./config/sonarr:/config
       - /mnt/media/video/Serien:/tvshows
@@ -139,9 +139,9 @@ services:
       glance.url: https://radarr.home.hpfr.ch/
       glance.description: Movie collection manager
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Zurich
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Zurich
     volumes:
       - ./config/radarr:/config
       - /mnt/media/video/Movies:/movies
@@ -157,9 +157,9 @@ services:
     container_name: bazarr
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Zurich
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Zurich
     volumes:
       - ./config/bazarr:/config
       - /mnt/media/video/Serien:/tvshows
@@ -185,12 +185,12 @@ services:
     volumes:
       - ./config/cleanuparr:/config
     environment:
-      - PORT=11011
-      - BASE_PATH=
-      - PUID=1000
-      - PGID=1000
-      - UMASK=022
-      - TZ=Europe/Zurich
+      PORT: 11011
+      BASE_PATH: 
+      PUID: 1000
+      PGID: 1000
+      UMASK: 022
+      TZ: Europe/Zurich
     labels:
       traefik.enable: true
       traefik.http.routers.cleanuparr.middlewares: tinyauth
@@ -217,21 +217,21 @@ services:
     image: ghcr.io/haveagitgat/tdarr:latest
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Zurich
-      - UMASK_SET=002
-      - internalNode=true
-      - inContainer=true
-      - ffmpegVersion=7
-      - nodeName=internal-node
-      - openBrowser=false
-      - maxLogSizeMB=10
-      - cronPluginUpdate=
-      - transcodecpuWorkers=0
-      - transcodegpuWorkers=2
-      - healthcheckgpuWorkers=0
-      - healthcheckcpuWorkers=2
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Zurich
+      UMASK_SET: 002
+      internalNode: true
+      inContainer: true
+      ffmpegVersion: 7
+      nodeName: internal-node
+      openBrowser: false
+      maxLogSizeMB: 10
+      cronPluginUpdate: 
+      transcodecpuWorkers: 0
+      transcodegpuWorkers: 2
+      healthcheckgpuWorkers: 0
+      healthcheckcpuWorkers: 2
     labels:
       traefik.enable: true
       traefik.http.routers.tdarr.middlewares: tinyauth
@@ -259,25 +259,25 @@ services:
     restart: unless-stopped
     network_mode: service:tdarr
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Zurich
-      - UMASK_SET=002
-      - nodeName=docker-node
-      - serverIP=localhost
-      - inContainer=true
-      - ffmpegVersion=7
-      - nodeType=mapped
-      - priority=-1
-      - cronPluginUpdate=
-      - apiKey=
-      - maxLogSizeMB=10
-      - pollInterval=2000
-      - startPaused=false
-      - transcodegpuWorkers=2
-      - transcodecpuWorkers=0
-      - healthcheckgpuWorkers=0
-      - healthcheckcpuWorkers=0
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Zurich
+      UMASK_SET: 002
+      nodeName: docker-node
+      serverIP: localhost
+      inContainer: true
+      ffmpegVersion: 7
+      nodeType: mapped
+      priority: -1
+      cronPluginUpdate: 
+      apiKey: 
+      maxLogSizeMB: 10
+      pollInterval: 2000
+      startPaused: false
+      transcodegpuWorkers: 2
+      transcodecpuWorkers: 0
+      healthcheckgpuWorkers: 0
+      healthcheckcpuWorkers: 0
     volumes:
       - ./config/tdarr:/app/configs
       - tdarr-data:/app/server
@@ -292,10 +292,10 @@ services:
     container_name: jackett
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Zurich
-      - AUTO_UPDATE=true
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Zurich
+      AUTO_UPDATE: true
     volumes:
       - ./config/jackett:/config
     labels:
@@ -317,8 +317,8 @@ services:
     container_name: jellyseerr
     restart: unless-stopped
     environment:
-      - LOG_LEVEL=debug
-      - TZ=Europe/Zurich
+      LOG_LEVEL: debug
+      TZ: Europe/Zurich
     volumes:
       - ./config/jellyseerr:/app/config
     labels:

@@ -25,8 +25,8 @@ services:
       glance.description: Personal travel logbook
       glance.id: adventurelog
     environment:
-      - PUBLIC_SERVER_URL=http://server:8000
-      - BODY_SIZE_LIMIT=Infinity
+      PUBLIC_SERVER_URL: http://server:8000
+      BODY_SIZE_LIMIT: Infinity
     networks:
       - default
       - proxy-net
@@ -58,15 +58,15 @@ services:
     restart: unless-stopped
     env_file: .env
     environment:
-      - PGHOST=db
-      - PGDATABASE=${DB_DATABASE_NAME}
-      - PGUSER=${DB_USERNAME}
-      - PGPASSWORD=${DB_PASSWORD}
-      - PUBLIC_URL=https://${DNS_CNAME}
-      - CSRF_TRUSTED_ORIGINS=https://${DNS_CNAME}
-      - DEBUG=False
-      - FRONTEND_URL=https://${DNS_CNAME}
-      - DISABLE_REGISTRATION=True
+      PGHOST: db
+      PGDATABASE: ${DB_DATABASE_NAME}
+      PGUSER: ${DB_USERNAME}
+      PGPASSWORD: ${DB_PASSWORD}
+      PUBLIC_URL: https://${DNS_CNAME}
+      CSRF_TRUSTED_ORIGINS: https://${DNS_CNAME}
+      DEBUG: False
+      FRONTEND_URL: https://${DNS_CNAME}
+      DISABLE_REGISTRATION: True
     volumes:
       - adventurelog-media:/code/media/
     labels:
