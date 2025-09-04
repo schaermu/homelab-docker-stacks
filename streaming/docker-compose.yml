@@ -8,6 +8,7 @@ networks:
 
 volumes:
   jellyfin-data:
+  tdarr-data:
   navidrome-data:
 
 services:
@@ -210,6 +211,81 @@ services:
       timeout: 10s
       start_period: 30s
       retries: 3
+
+  tdarr:
+    container_name: tdarr
+    image: ghcr.io/haveagitgat/tdarr:latest
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Zurich
+      - UMASK_SET=002
+      - internalNode=true
+      - inContainer=true
+      - ffmpegVersion=7
+      - nodeName=internal-node
+      - openBrowser=false
+      - maxLogSizeMB=10
+      - cronPluginUpdate=
+      - transcodecpuWorkers=0
+      - transcodegpuWorkers=2
+      - healthcheckgpuWorkers=0
+      - healthcheckcpuWorkers=2
+    labels:
+      traefik.enable: true
+      traefik.http.routers.tdarr.middlewares: tinyauth
+      traefik.http.services.tdarr.loadbalancer.server.port: 8265
+      glance.category: media
+      glance.icon: di:tdarr-light
+      glance.name: Tdarr
+      glance.url: https://tdarr.home.hpfr.ch/
+      glance.description: Media transcoding tool
+    volumes:
+      - ./config/tdarr:/app/configs
+      - tdarr-data:/app/server
+      - /var/log/tdarr:/app/logs
+      - /mnt/media/video:/media
+      - /tmp/transcode_cache:/temp
+    devices:
+      - /dev/dri:/dev/dri
+    networks:
+      - default
+      - proxy-net
+  
+  tdarr-node:
+    container_name: tdarr-node
+    image: ghcr.io/haveagitgat/tdarr_node:latest
+    restart: unless-stopped
+    network_mode: service:tdarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Zurich
+      - UMASK_SET=002
+      - nodeName=docker-node
+      - serverIP=localhost
+      - inContainer=true
+      - ffmpegVersion=7
+      - nodeType=mapped
+      - priority=-1
+      - cronPluginUpdate=
+      - apiKey=
+      - maxLogSizeMB=10
+      - pollInterval=2000
+      - startPaused=false
+      - transcodegpuWorkers=2
+      - transcodecpuWorkers=0
+      - healthcheckgpuWorkers=0
+      - healthcheckcpuWorkers=0
+    volumes:
+      - ./config/tdarr:/app/configs
+      - tdarr-data:/app/server
+      - /var/log/tdarr:/app/logs
+      - /mnt/media/video:/media
+      - /tmp/transcode_cache:/temp
+    devices:
+      - /dev/dri:/dev/dri
 
   jackett:
     image: linuxserver/jackett:0.22.2321
