@@ -129,7 +129,7 @@ services:
     restart: unless-stopped
 
   vikunja-db:
-    image: postgres:16
+    image: postgres:17
     container_name: vikunja-db
     environment:
       POSTGRES_PASSWORD: ${VIKUNJA_POSTGRES_PASSWORD}
