@@ -289,7 +289,7 @@ services:
       - /dev/dri:/dev/dri
 
   jackett:
-    image: linuxserver/jackett:0.22.2418
+    image: linuxserver/jackett:0.22.2429
     container_name: jackett
     restart: unless-stopped
     environment:
