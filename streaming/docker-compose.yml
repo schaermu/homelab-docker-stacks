@@ -115,6 +115,7 @@ services:
       PUID: 1000
       PGID: 1000
       TZ: Europe/Zurich
+      SONARR__AUTH__METHOD: External
     volumes:
       - ./config/sonarr:/config
       - /mnt/media/video/Serien:/tvshows
@@ -142,6 +143,7 @@ services:
       PUID: 1000
       PGID: 1000
       TZ: Europe/Zurich
+      RADARR__AUTH__METHOD: External
     volumes:
       - ./config/radarr:/config
       - /mnt/media/video/Movies:/movies
