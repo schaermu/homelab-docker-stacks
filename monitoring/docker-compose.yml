@@ -17,7 +17,7 @@ volumes:
 
 services:
   vmagent:
-    image: victoriametrics/vmagent:v1.125.1
+    image: victoriametrics/vmagent:v1.126.0
     container_name: vmagent
     restart: unless-stopped
     volumes:
@@ -43,7 +43,7 @@ services:
 
   victoriametrics:
     container_name: victoriametrics
-    image: victoriametrics/victoria-metrics:v1.125.1
+    image: victoriametrics/victoria-metrics:v1.126.0
     restart: unless-stopped
     volumes:
       - victoriametrics-data:/storage
