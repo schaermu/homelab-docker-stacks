@@ -43,7 +43,7 @@ services:
 
   victoriametrics:
     container_name: victoriametrics
-    image: victoriametrics/victoria-metrics:v1.126.0
+    image: victoriametrics/victoria-metrics:v1.127.0
     restart: unless-stopped
     volumes:
       - victoriametrics-data:/storage
