@@ -8,7 +8,7 @@ volumes:
 
 services:
   crowdsec:
-    image: crowdsecurity/crowdsec:v1.7.0
+    image: crowdsecurity/crowdsec:v1.7.2
     container_name: crowdsec
     restart: unless-stopped
     environment:
