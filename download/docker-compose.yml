@@ -63,7 +63,7 @@ services:
       glance.description: Torrent client with web interface
 
   sabnzbd:
-    image: linuxserver/sabnzbd:4.5.4
+    image: linuxserver/sabnzbd:4.5.5
     container_name: sabnzbd
     restart: unless-stopped
     labels:
