@@ -10,7 +10,7 @@ secrets:
 
 services:
   traefik:
-    image: traefik:v3.5.3
+    image: traefik:v3.5.4
     container_name: traefik
     restart: unless-stopped
     environment:
