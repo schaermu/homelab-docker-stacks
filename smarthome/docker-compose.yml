@@ -61,7 +61,7 @@ services:
     user: 1000:1000
 
   mqtt-exporter:
-    image: kpetrem/mqtt-exporter:1.8.1
+    image: kpetrem/mqtt-exporter:1.9.0
     container_name: mqtt-exporter
     restart: unless-stopped
     environment:
