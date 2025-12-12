@@ -48,7 +48,7 @@ services:
       - proxy-net
 
   navidrome:
-    image: deluan/navidrome:0.58.5
+    image: deluan/navidrome:0.59.0
     container_name: navidrome
     restart: unless-stopped
     labels:
